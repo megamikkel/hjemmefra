@@ -199,10 +199,10 @@ namespace string_dif_converters
 
                 return sentenceOfUser;
             }
-           // static string Translator2D(string Translation);
-            //{
-            //    Dictionary<string, Dictionary<string, string>>
-            //}
+            static string Translator2D(string Translation);
+            {
+                Dictionary<string, Dictionary<string, string>>
+            }
 
         }
     }
