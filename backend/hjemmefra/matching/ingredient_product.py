@@ -38,8 +38,21 @@ class PurchaseOption:
 
 @dataclass
 class MatchReport:
-    options: Dict[str, List[PurchaseOption]] = field(default_factory=dict)  # ingredient_id -> options
+    options: Dict[str, List[PurchaseOption]] = field(default_factory=dict)  # requirement_key -> options
+    accepted_products: Dict[str, set] = field(default_factory=dict)  # requirement_key -> canonical ids that satisfy it
     rejected: List[dict] = field(default_factory=list)
+
+
+def requirement_key(ing: RecipeIngredient) -> str:
+    """Key for 'what is needed': canonical id plus the recipe's own constraints, so two recipes
+    needing the same canonical ingredient with different requirements (e.g. fat <= 12 %) are not
+    conflated, while identical requirements aggregate across recipes."""
+    import json
+    from hjemmefra.core.ids import stable_hash
+    if not ing.required_attributes and ing.accepts_frozen and ing.substitution_group is None:
+        return ing.canonical_ingredient_id
+    sig = json.dumps({"a": ing.required_attributes, "f": ing.accepts_frozen, "g": ing.substitution_group}, sort_keys=True, default=str)
+    return f"{ing.canonical_ingredient_id}#{stable_hash(sig)[:8]}"
 
 
 def product_violates_hard_constraints(product: CanonicalProduct, household: Household) -> Optional[str]:
@@ -97,15 +110,18 @@ def match_ingredients(ingredients: Iterable[RecipeIngredient], products: Dict[st
     report = MatchReport()
     seen: set[str] = set()
     for ing in ingredients:
-        if ing.canonical_ingredient_id in seen:
+        key = requirement_key(ing)
+        if key in seen:
             continue
-        seen.add(ing.canonical_ingredient_id)
+        seen.add(key)
         opts: List[PurchaseOption] = []
+        accepted: set = set()
         for product, is_sub in candidate_products(ing, products):
             why_not = product_violates_hard_constraints(product, household) or _attributes_ok(product, ing)
             if why_not:
                 report.rejected.append({"ingredient": ing.canonical_ingredient_id, "product": product.canonical_id, "reason": why_not})
                 continue
+            accepted.add(product.canonical_id)
             for offer in offers:
                 if offer.canonical_product_id != product.canonical_id:
                     continue
@@ -139,11 +155,12 @@ def match_ingredients(ingredients: Iterable[RecipeIngredient], products: Dict[st
                     opts.append(PurchaseOption(
                         option_id=f"{offer.offer_id}@{store.store_id}",
                         canonical_id=product.canonical_id,
-                        ingredient_id=ing.canonical_ingredient_id,
+                        ingredient_id=key,
                         store=store, offer=offer,
                         package_base_qty=pkg.to_base().value,
                         price_confidence=offer.price_confidence,
                         explanation=expl, is_substitute=is_sub,
                     ))
-        report.options[ing.canonical_ingredient_id] = opts
+        report.options[key] = opts
+        report.accepted_products[key] = accepted
     return report

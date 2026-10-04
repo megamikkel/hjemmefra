@@ -12,7 +12,7 @@ def test_golden_totals(golden_plan):
     one = scenario(golden_plan, OptimizationMode.ONE_STORE)
     for s in (cheapest, balanced, one):
         assert s.status == PlanStatus.OK and s.optimization_status == OptimizationStatus.OPTIMAL
-    assert (cheapest.checkout_total_minor, cheapest.store_count) == (20400, 3)
+    assert (cheapest.checkout_total_minor, cheapest.store_count) == (20300, 3)
     assert (balanced.checkout_total_minor, balanced.store_count) == (24000, 2)
     assert (one.checkout_total_minor, one.store_count) == (26900, 1)
     assert cheapest.checkout_total_minor <= balanced.checkout_total_minor <= one.checkout_total_minor

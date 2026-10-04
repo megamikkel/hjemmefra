@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta, timezone
+from decimal import Decimal
 from typing import Dict, List, Optional, Sequence
 
 from hjemmefra import OPTIMIZER_VERSION
@@ -65,7 +66,9 @@ def generate_plan(req: PlanRequest, data: PlanningData, distance_provider: Optio
 
     # 4. pantry
     pantry = usable_lots(data.pantry_lots, data.products, use_by=days[0])
-    pantry_base = {k: sum((u.usable_base_qty for u in v)) for k, v in pantry.items()}
+    pantry_cid = {k: sum((u.usable_base_qty for u in v)) for k, v in pantry.items()}
+    # pantry usable per requirement key = sum over accepted canonical products
+    pantry_base = {key: sum((pantry_cid.get(c, 0) for c in cids), Decimal(0)) for key, cids in report.accepted_products.items()}
 
     # 5. candidates
     cands, rejected = generate_candidates(data.recipes, hh, data.products, report.options, pantry_base, req, servings)
@@ -74,7 +77,7 @@ def generate_plan(req: PlanRequest, data: PlanningData, distance_provider: Optio
         warnings.append("Ingen opskrifter kunne prissættes med verificerede tilbud i de valgte butikker.")
 
     ctx = OptimizationContext(household=hh, request=req, days=days, candidates=cands, options=report.options,
-                              pantry=pantry, stores=store_map, travel_cost=travel, products=data.products,
+                              pantry=pantry, accepted_products=report.accepted_products, stores=store_map, travel_cost=travel, products=data.products,
                               history=list(data.history), servings=servings, shopping_dates=shopping_dates)
     scenarios = run_scenarios(ctx)
 

@@ -22,14 +22,29 @@ class OptimizationContext:
     request: PlanRequest
     days: List[date]
     candidates: List[RecipeCandidate]
-    options: Dict[str, List[PurchaseOption]]  # ingredient -> options
-    pantry: Dict[str, List[UsableLot]]  # ingredient -> usable lots (FEFO)
+    options: Dict[str, List[PurchaseOption]]  # requirement key -> options
+    pantry: Dict[str, List[UsableLot]]  # canonical id -> usable lots (FEFO)
     stores: Dict[str, StoreDistance]
     travel_cost: Dict[str, int]  # store_id -> øre
     products: Dict[str, CanonicalProduct]
+    accepted_products: Dict[str, set] = field(default_factory=dict)  # requirement key -> canonical ids
     history: List[PriceObservation] = field(default_factory=list)
     servings: int = 2
     shopping_dates: List[date] = field(default_factory=list)
 
     def pantry_base(self) -> Dict[str, Decimal]:
+        """Usable pantry quantity per canonical id."""
         return {k: sum((u.usable_base_qty for u in v), Decimal(0)) for k, v in self.pantry.items()}
+
+    def pantry_for_key(self, key: str) -> Dict[str, Decimal]:
+        """Usable pantry per canonical id that satisfies the requirement key."""
+        base = self.pantry_base()
+        cids = self.accepted_products.get(key) or {key.split("#")[0]}
+        return {c: base[c] for c in cids if base.get(c, Decimal(0)) > 0}
+
+    def all_options(self) -> Dict[str, PurchaseOption]:
+        out: Dict[str, PurchaseOption] = {}
+        for opts in self.options.values():
+            for o in opts:
+                out.setdefault(o.option_id, o)
+        return out

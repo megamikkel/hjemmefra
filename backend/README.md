@@ -27,12 +27,12 @@ Migrations: `HJEMMEFRA_DATABASE_URL=postgresql://... alembic upgrade head`.
 ## Demo result (golden, reproduced by `tests/optimizer/test_golden.py`)
 | Scenario | Checkout | Stores | Travel est. |
 |---|---|---|---|
-| CHEAPEST | 204,00 kr | 3 | 26,40 kr |
+| CHEAPEST | 203,00 kr | 3 | 26,40 kr |
 | BALANCED | 240,00 kr | 2 | 5,65 kr |
 | ONE_STORE | 269,00 kr | 1 | 2,15 kr |
 
 Explanation produced from engine data (BALANCED): "240,00 kr ved kassen fordelt
-på 2 butikker. Den absolut billigste plan kostede 204,00 kr med 3 butikker.
+på 2 butikker. Den absolut billigste plan kostede 203,00 kr med 3 butikker.
 2 pantry-varer bruges. 3 retter laves i dobbelt portion og spises som rest.
 100 % af checkout-prisen bygger på verificerede aktuelle priser."
 

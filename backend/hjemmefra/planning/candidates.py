@@ -16,16 +16,17 @@ from hjemmefra.domain.household import Allergen, DietType, Household
 from hjemmefra.domain.plan import PlanRequest
 from hjemmefra.domain.product import CanonicalProduct
 from hjemmefra.domain.recipe import Recipe, RecipeIngredient
-from hjemmefra.matching.ingredient_product import PurchaseOption, product_violates_hard_constraints
+from hjemmefra.matching.ingredient_product import PurchaseOption, product_violates_hard_constraints, requirement_key
 from hjemmefra.planning.scoring import ScoreBreakdown, preference_score
 from hjemmefra.pricing.engine import PriceUnavailable, product_cost_for_packages
 
 
 @dataclass
 class ScaledIngredient:
-    ingredient_id: str
+    ingredient_id: str  # requirement key (see matching.requirement_key)
     base_qty: Decimal  # scaled, in product base unit
     optional: bool
+    canonical_id: str = ""
 
 
 @dataclass
@@ -77,7 +78,7 @@ def scale_recipe(recipe: Recipe, servings: int, products: Dict[str, CanonicalPro
                 raise PriceUnavailable(f"UNIT_CONVERSION_UNKNOWN:{ing.canonical_ingredient_id}")
             q = q.convert_to(prod.base_unit, prod.density_g_per_ml)
         base = q.to_base().value.quantize(Decimal(1), rounding=ROUND_CEILING)
-        out.append(ScaledIngredient(ing.canonical_ingredient_id, base, ing.optional))
+        out.append(ScaledIngredient(requirement_key(ing), base, ing.optional, ing.canonical_ingredient_id))
     return out
 
 
