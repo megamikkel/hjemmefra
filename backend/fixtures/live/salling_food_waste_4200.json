@@ -1,0 +1,16 @@
+[
+  {"store": {"id": "a1b2", "name": "Netto Slagelse Centrum", "brand": "netto", "address": {"street": "Jernbanegade 1", "zip": "4200", "city": "Slagelse"}, "coordinates": [11.3546, 55.4027]},
+   "clearances": [
+     {"offer": {"currency": "DKK", "discount": 20.0, "ean": "5700000000011", "endTime": "2026-10-06T22:00:00Z", "lastUpdate": "2026-10-04T05:00:00Z", "newPrice": 29.0, "originalPrice": 49.0, "percentDiscount": 40.8, "startTime": "2026-10-04T05:00:00Z", "stock": 3, "stockUnit": "each"},
+      "product": {"description": "Kyllingebrystfilet 900 g", "ean": "5700000000011"}},
+     {"offer": {"currency": "DKK", "discount": 10.0, "ean": "5700000000028", "endTime": "2026-10-05T22:00:00Z", "lastUpdate": "2026-10-04T05:00:00Z", "newPrice": 14.0, "originalPrice": 24.0, "percentDiscount": 41.7, "startTime": "2026-10-04T05:00:00Z", "stock": 6, "stockUnit": "each"},
+      "product": {"description": "Piskefløde 38% 250 ml", "ean": "5700000000028"}},
+     {"offer": {"currency": "DKK", "discount": 5.0, "ean": "5700000000035", "endTime": "2026-10-05T22:00:00Z", "lastUpdate": "2026-10-04T05:00:00Z", "newPrice": 10.0, "originalPrice": 15.0, "percentDiscount": 33.3, "startTime": "2026-10-04T05:00:00Z", "stock": 2, "stockUnit": "each"},
+      "product": {"description": "Blandet salat", "ean": "5700000000035"}}
+   ]},
+  {"store": {"id": "c3d4", "name": "Bilka Slagelse", "brand": "bilka", "address": {"street": "Vestre Ringgade 2", "zip": "4200", "city": "Slagelse"}, "coordinates": [11.33, 55.40]},
+   "clearances": [
+     {"offer": {"currency": "DKK", "discount": 30.0, "ean": "5700000000042", "endTime": "2026-10-07T22:00:00Z", "lastUpdate": "2026-10-04T05:00:00Z", "newPrice": 39.0, "originalPrice": 69.0, "percentDiscount": 43.5, "startTime": "2026-10-04T05:00:00Z", "stock": 1, "stockUnit": "each"},
+      "product": {"description": "Laksefilet 400 g", "ean": "5700000000042"}}
+   ]}
+]

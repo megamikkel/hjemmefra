@@ -42,6 +42,8 @@ class RecipeCandidate:
 
 def hard_filter(recipe: Recipe, household: Household, products: Dict[str, CanonicalProduct], req: PlanRequest) -> Optional[str]:
     p = household.preferences
+    if recipe.review_required:
+        return "REVIEW_REQUIRED"
     if set(recipe.allergens) & set(p.allergens):
         return "ALLERGEN"
     max_prep = req.max_prep_minutes or p.max_prep_minutes

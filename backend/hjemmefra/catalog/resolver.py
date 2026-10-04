@@ -68,8 +68,8 @@ class ProductResolver:
                 at = set(tokens(alias))
                 if not at:
                     continue
-                # alias fully contained in title (phrase) -> strong
-                if norm_text(alias) in t:
+                # alias fully contained in title as a whole-word phrase -> strong ("ris" must not match inside "frisk")
+                if f" {norm_text(alias)} " in f" {t} ":
                     extra = len(title_tokens - at)
                     conf = MatchConfidence.HIGH if extra <= 2 else MatchConfidence.MEDIUM
                     cand = ResolveResult(p.canonical_id, conf, f"alias '{alias}' contained in title", 0.9 - 0.05 * extra)

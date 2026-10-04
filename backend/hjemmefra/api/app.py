@@ -35,6 +35,7 @@ def create_app(cfg: Settings | None = None) -> FastAPI:
     app.state.session_factory = factory
     app.state.engine = engine
     app.state.admin_api_key = cfg.admin_api_key
+    app.state.settings = cfg
     for r in (households.router, catalog.router, pantry.router, plans.router, feedback.router, admin.router):
         app.include_router(r)
 

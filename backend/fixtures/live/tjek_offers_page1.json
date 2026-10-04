@@ -1,0 +1,14 @@
+[
+  {"id": "t1", "heading": "Hakket oksekød 8-12%", "description": "500 g. Frit valg.", "pricing": {"price": 35.0, "pre_price": 49.95, "currency": "DKK"},
+   "quantity": {"unit": {"symbol": "g"}, "size": {"from": 500, "to": 500}, "pieces": {"from": 1, "to": 1}},
+   "run_from": "2026-10-04T22:00:00+0000", "run_till": "2026-10-10T21:59:59+0000", "dealer": {"id": "d1", "name": "REMA 1000"}, "catalog_id": "cat1"},
+  {"id": "t2", "heading": "Kyllingefilet", "description": "1 kg", "pricing": {"price": 60.0, "pre_price": 85.0, "currency": "DKK"},
+   "quantity": {"unit": {"symbol": "kg"}, "size": {"from": 1, "to": 1}, "pieces": {"from": 1, "to": 1}},
+   "run_from": "2026-10-04T22:00:00+0000", "run_till": "2026-10-10T21:59:59+0000", "dealer": {"id": "d2", "name": "Lidl"}, "catalog_id": "cat2"},
+  {"id": "t3", "heading": "Peberfrugter", "description": "400-600 g", "pricing": {"price": 12.0, "pre_price": null, "currency": "DKK"},
+   "quantity": {"unit": {"symbol": "g"}, "size": {"from": 400, "to": 600}, "pieces": {"from": 1, "to": 1}},
+   "run_from": "2026-10-04T22:00:00+0000", "run_till": "2026-10-10T21:59:59+0000", "dealer": {"id": "d2", "name": "Lidl"}, "catalog_id": "cat2"},
+  {"id": "t4", "heading": "Vaskepulver", "description": "", "pricing": {"price": 59.0, "pre_price": 79.0, "currency": "DKK"},
+   "quantity": {"unit": {"symbol": "kg"}, "size": {"from": 2, "to": 2}, "pieces": {"from": 1, "to": 1}},
+   "run_from": "2026-10-04T22:00:00+0000", "run_till": "2026-10-10T21:59:59+0000", "dealer": {"id": "d9", "name": "Jem & Fix"}, "catalog_id": "cat9"}
+]

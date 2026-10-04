@@ -47,9 +47,25 @@ på 2 butikker. Den absolut billigste plan kostede 203,00 kr med 3 butikker.
 `hjemmefra/` domain packages (see `docs/ARCHITECTURE.md`), `alembic/` migrations,
 `fixtures/demo_offers.json` regression fixture, `tests/{unit,ingestion,optimizer,property,api,db}`.
 
+## Live data sources
+Adapters exist for two official APIs and a recipe importer; all are compliance-classified (ADR-0005)
+and degrade gracefully (missing key or network error becomes a coverage warning, never a crash).
+
+| Source | What | Env var | Scope mapping |
+|---|---|---|---|
+| Salling Group API (`/v1/food-waste`, `/v1/stores`) | Netto, Bilka, føtex clearance offers with stock; store catalog | `HJEMMEFRA_SALLING_API_TOKEN` | STORE |
+| Tjek / eTilbudsavis API (`/v2/offers`) | Weekly leaflet offers for Lidl, REMA 1000, Netto, Bilka, føtex, ... | `HJEMMEFRA_TJEK_API_KEY` | REGIONAL (`tjek:<postal>`) |
+| schema.org/Recipe JSON-LD importer | Recipes from pages you point at (no crawling) | none | `review_required` until ingredients resolve |
+
+Set `HJEMMEFRA_SOURCE_POSTAL_CODE=4200` and call `POST /admin/ingestion/run`, `POST /admin/stores/import-salling`,
+`POST /admin/recipes/import {"urls": [...]}`. Keys are obtained from developer.sallinggroup.com and tjek.com/developers.
+Regular leaflet offers for Lidl/REMA are only available through Tjek; retailer websites are deliberately not scraped.
+The cloud environment used for development blocks outbound traffic to these hosts, so the adapters are verified
+against recorded fixtures in `fixtures/live/` (see `tests/ingestion/test_live_adapters.py`).
+
 ## Known limitations
-- No real retailer adapters yet: only manual/JSON and demo providers. Real
-  sources plug into `SourceAdapter` after compliance classification.
+- Live adapters are fixture-tested but not yet run against the real APIs (needs network + keys).
+  Tjek offers are mapped to a postal-code region, not to individual stores.
 - Distance is straight-line × 1.3, labelled as such; no routing provider.
 - Leftovers are modelled as "cook double, eat next day"; partial-ingredient
   leftovers (e.g. 250 g cooked chicken reused in another dish) are tracked by

@@ -24,6 +24,7 @@ POSTAL_CENTROIDS: Dict[str, Tuple[float, float]] = {
     "2200": (55.6950, 12.5500),  # København N
     "5000": (55.3959, 10.3883),  # Odense C
     "9000": (57.0488, 9.9217),  # Aalborg
+    "4200": (55.4027, 11.3546),  # Slagelse
 }
 
 ROAD_DETOUR_FACTOR = 1.3  # straight-line -> rough road distance; documented approximation

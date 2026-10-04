@@ -42,6 +42,7 @@ class Recipe(BaseModel):
     nutrition: Optional[dict] = None  # only when reliable; carries source
     nutrition_source: Optional[str] = None
     source: Optional[str] = None
+    review_required: bool = False  # imported with unresolved ingredients; excluded from planning
     version: int = 1
 
     @property

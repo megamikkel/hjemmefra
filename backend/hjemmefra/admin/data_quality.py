@@ -7,7 +7,7 @@ from hjemmefra.core.metrics import registry
 from hjemmefra.persistence.repositories import ReviewRepo
 
 REVIEW_KINDS = ["UNMATCHED_PRODUCT", "OFFER_SUSPICIOUS", "OFFER_INVALID", "OFFER_REQUIRES_REVIEW", "PARSE_FAILURE",
-                "FAILED_IMPORT", "LOW_CONFIDENCE_MATCH", "UNKNOWN_UNIT", "DUPLICATE_CANDIDATE"]
+                "FAILED_IMPORT", "LOW_CONFIDENCE_MATCH", "UNKNOWN_UNIT", "DUPLICATE_CANDIDATE", "UNIT_CONVERSION_UNKNOWN"]
 
 
 def summary(s: Session) -> dict:
