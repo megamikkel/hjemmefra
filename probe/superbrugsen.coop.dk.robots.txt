@@ -1,0 +1,7 @@
+# robots.txt for Umbraco
+User-agent: *
+Disallow: /install/
+Disallow: /umbraco/
+Disallow: /App_Plugins/
+
+Sitemap: https://superbrugsen.coop.dk/sitemap.xml

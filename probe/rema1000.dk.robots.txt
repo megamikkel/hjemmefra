@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /api/*
+Disallow: /konto/*
+
+Sitemap: https://rema1000.dk/sitemap_index.xml
