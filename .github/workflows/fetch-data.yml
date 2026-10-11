@@ -16,6 +16,9 @@ on:
       task:
         description: "fetch (default) or probe (reconnaissance of retailer offer pages)"
         default: "fetch"
+      probe_urls:
+        description: "probe only: space-separated page URLs to save (overrides the retailer list)"
+        default: ""
   schedule:
     - cron: "17 5 * * 1,4"  # Monday and Thursday mornings UTC
 
@@ -39,11 +42,16 @@ jobs:
       - name: Probe retailer offer pages
         if: ${{ github.event.inputs.task == 'probe' }}
         run: |
+          if [ -n "${{ github.event.inputs.probe_urls }}" ]; then
+            ARGS=""; for u in ${{ github.event.inputs.probe_urls }}; do ARGS="$ARGS --site $u"; done
+            python -m hjemmefra.tools.probe_sites --out probe $ARGS --max-pages 1 --delay 2
+          else
           python -m hjemmefra.tools.probe_sites --out probe \
             --site https://www.lidl.dk/ --site https://rema1000.dk/ --site https://netto.dk/ \
             --site https://www.bilka.dk/ --site https://www.foetex.dk/ --site https://365discount.coop.dk/ \
             --site https://superbrugsen.coop.dk/ --max-pages 6 --delay 2 \
             --sitemap https://rema1000.dk/sitemap_index.xml --sitemap https://www.lidl.dk/static/sitemap.xml --sitemap https://netto.dk/sitemap.xml
+          fi
           git config user.name "hjemmefra-data-bot"
           git config user.email "noreply@example.invalid"
           git fetch origin data
