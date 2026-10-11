@@ -700,5 +700,109 @@
    "https://superbrugsen.coop.dk/avis/",
    "https://superbrugsen.coop.dk/avis/"
   ]
+ },
+ {
+  "sitemap": "https://rema1000.dk/sitemap_index.xml",
+  "children": [
+   {
+    "url": "https://rema1000.dk/__sitemap__/stores.xml",
+    "status": 200,
+    "locs": 439,
+    "sample": [
+     "https://rema1000.dk/find-butik-og-abningstider/401",
+     "https://rema1000.dk/find-butik-og-abningstider/402",
+     "https://rema1000.dk/find-butik-og-abningstider/403",
+     "https://rema1000.dk/find-butik-og-abningstider/404",
+     "https://rema1000.dk/find-butik-og-abningstider/405",
+     "https://rema1000.dk/find-butik-og-abningstider/406",
+     "https://rema1000.dk/find-butik-og-abningstider/407",
+     "https://rema1000.dk/find-butik-og-abningstider/408",
+     "https://rema1000.dk/find-butik-og-abningstider/409",
+     "https://rema1000.dk/find-butik-og-abningstider/410",
+     "https://rema1000.dk/find-butik-og-abningstider/411",
+     "https://rema1000.dk/find-butik-og-abningstider/412",
+     "https://rema1000.dk/find-butik-og-abningstider/413",
+     "https://rema1000.dk/find-butik-og-abningstider/414",
+     "https://rema1000.dk/find-butik-og-abningstider/415"
+    ]
+   }
+  ],
+  "status": 200,
+  "locs": 1,
+  "sample": [
+   "https://rema1000.dk/__sitemap__/stores.xml"
+  ]
+ },
+ {
+  "sitemap": "https://www.lidl.dk/static/sitemap.xml",
+  "children": [
+   {
+    "url": "https://www.lidl.dk/s/da-DK/findbutik/sitemap.xml",
+    "status": 200,
+    "locs": 202,
+    "sample": [
+     "https://www.lidl.dk/s/",
+     "https://www.lidl.dk/s/da-DK/findbutik/",
+     "https://www.lidl.dk/s/da-DK/nyaabninger/",
+     "https://www.lidl.dk/s/da-DK/findbutik/aalborg-soe/",
+     "https://www.lidl.dk/s/da-DK/findbutik/aarhus-n/",
+     "https://www.lidl.dk/s/da-DK/findbutik/aarhus/",
+     "https://www.lidl.dk/s/da-DK/findbutik/fredericia/",
+     "https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/",
+     "https://www.lidl.dk/s/da-DK/findbutik/greve/",
+     "https://www.lidl.dk/s/da-DK/findbutik/herning/",
+     "https://www.lidl.dk/s/da-DK/findbutik/hilleroed/",
+     "https://www.lidl.dk/s/da-DK/findbutik/hjoerring/",
+     "https://www.lidl.dk/s/da-DK/findbutik/holstebro/",
+     "https://www.lidl.dk/s/da-DK/findbutik/horsens/",
+     "https://www.lidl.dk/s/da-DK/findbutik/hvidovre/"
+    ]
+   }
+  ],
+  "status": 200,
+  "locs": 3,
+  "sample": [
+   "https://www.lidl.dk/p/export/DK/da/product_sitemap.xml.gz",
+   "https://www.lidl.dk/explore/assets/s/pages_da-DK_dk.xml.gz",
+   "https://www.lidl.dk/s/da-DK/findbutik/sitemap.xml"
+  ]
+ },
+ {
+  "sitemap": "https://netto.dk/sitemap.xml",
+  "children": [],
+  "status": 200,
+  "locs": 686,
+  "sample": [
+   "https://netto.dk",
+   "https://netto.dk/netto-avisen/",
+   "https://netto.dk/find-butik/",
+   "https://netto.dk/netto-plus/",
+   "https://netto.dk/netto-plus/nettoplus-vilkaar/",
+   "https://netto.dk/netto-plus/nettoplus-privatlivspolitik/",
+   "https://netto.dk/nyheder/",
+   "https://netto.dk/opskrifter/",
+   "https://netto.dk/job-i-netto/",
+   "https://netto.dk/kundeservice/",
+   "https://netto.dk/bager/",
+   "https://netto.dk/historie/",
+   "https://netto.dk/konkurrencebetingelser_facebook/",
+   "https://netto.dk/danmarks-nye-hverdagsklassikere/",
+   "https://netto.dk/privatlivspolitik_facebook/",
+   "https://netto.dk/konkurrencebetingelser_klimakampagne/",
+   "https://netto.dk/job/",
+   "https://netto.dk/ungarbejder/",
+   "https://netto.dk/salgsassistent/",
+   "https://netto.dk/1-assistent/",
+   "https://netto.dk/souschef/",
+   "https://netto.dk/butikschef/",
+   "https://netto.dk/konkurrencebetingelser_foedselsdagsspil/",
+   "https://netto.dk/konkurrencebetingelser/",
+   "https://netto.dk/ledige-stillinger/",
+   "https://netto.dk/tjaept/",
+   "https://netto.dk/nettoaanden/",
+   "https://netto.dk/hver-dag-bedre/",
+   "https://netto.dk/konkurrencebetingelser_rodderne/",
+   "https://netto.dk/nord-harmony/"
+  ]
  }
 ]

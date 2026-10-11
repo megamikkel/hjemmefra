@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://www.lidl.dk/s/</loc>
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/nyaabninger/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/nyaabninger/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aalborg-soe/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aalborg-soe/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus-n/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus-n/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/fredericia/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/fredericia/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/greve/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/greve/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/herning/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/herning/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hilleroed/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hilleroed/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hjoerring/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hjoerring/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/holstebro/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/holstebro/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/horsens/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/horsens/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hvidovre/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hvidovre/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kastrup/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kastrup/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-nv/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-nv/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-oe/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-oe/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-v/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-v/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kolding/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kolding/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/naestved/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/naestved/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/odense-c/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/odense-c/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ringsted/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ringsted/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/risskov/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/risskov/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/roskilde/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/roskilde/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/silkeborg/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/silkeborg/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/slagelse/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/slagelse/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/valby/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/valby/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vejle/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vejle/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/viborg/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/viborg/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aabenraa/langebro-44/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aabenraa/langebro-44/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aabybro/vestergade-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aabybro/vestergade-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aalborg-soe/diskovej-3/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aalborg-soe/diskovej-3/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aalborg-soe/gugvej-189/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aalborg-soe/gugvej-189/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aalborg-sv/k-christensens-vej-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aalborg-sv/k-christensens-vej-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aalborg/tornhoejvej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aalborg/tornhoejvej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus-c/raadhuspladsen-3/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus-c/raadhuspladsen-3/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus-n/randersvej-164/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus-n/randersvej-164/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus-n/skejbyvej-501/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus-n/skejbyvej-501/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus-v/viborgvej-165/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus-v/viborgvej-165/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus/anna-klindt-soerensens-gade-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus/anna-klindt-soerensens-gade-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus/gudrunsvej-7/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus/gudrunsvej-7/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aarhus/vestergaardsvej-16/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aarhus/vestergaardsvej-16/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/aars/soendergade-39/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/aars/soendergade-39/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/albertslund/stationstorvet-14/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/albertslund/stationstorvet-14/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/alleroed/stationsvej-3/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/alleroed/stationsvej-3/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/bagsvaerd/vadstrupvej-21/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/bagsvaerd/vadstrupvej-21/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ballerup/centrumgaden-16/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ballerup/centrumgaden-16/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/bjerringbro/torvegade-5/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/bjerringbro/torvegade-5/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/brande/chr-bergs-vej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/brande/chr-bergs-vej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/broendby-strand/gammel-koege-landevej-774/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/broendby-strand/gammel-koege-landevej-774/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/broenderslev/oestergade-52/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/broenderslev/oestergade-52/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/broenshoej/frederikssundsvej-266/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/broenshoej/frederikssundsvej-266/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/dragoer/kirkevej-137-139/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/dragoer/kirkevej-137-139/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/dyssegaard/vangedevej-142/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/dyssegaard/vangedevej-142/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/esbjerg-n/oestervangsvej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/esbjerg-n/oestervangsvej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/esbjerg-oe/storegade-227/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/esbjerg-oe/storegade-227/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/esbjerg-v/tarphagevej-11/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/esbjerg-v/tarphagevej-11/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/faaborg/banegaardspladsen-8/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/faaborg/banegaardspladsen-8/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/farum/farum-bytorv-76/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/farum/farum-bytorv-76/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/fredericia/gl-landevej-55/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/fredericia/gl-landevej-55/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/fredericia/vejlevej-38/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/fredericia/vejlevej-38/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/dirch-passers-alle-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/dirch-passers-alle-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/nordre-fasanvej-27/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/nordre-fasanvej-27/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/nordre-fasanvej-207/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/frederiksberg/nordre-fasanvej-207/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/frederikshavn/hjoerringvej-125/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/frederikshavn/hjoerringvej-125/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/frederikssund/a-c-hansensvej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/frederikssund/a-c-hansensvej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/frederiksvaerk/noerregade-45/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/frederiksvaerk/noerregade-45/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/glostrup/banegaardsvej-27/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/glostrup/banegaardsvej-27/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/grenaa/oesterbrogade-43-b/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/grenaa/oesterbrogade-43-b/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/greve/lillevangsvej-48/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/greve/lillevangsvej-48/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/greve/mosede-strandvej-42-48-50/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/greve/mosede-strandvej-42-48-50/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/grindsted/glentevej-3/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/grindsted/glentevej-3/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/haderslev/jomfrustien-44/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/haderslev/jomfrustien-44/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hadsund/broparken-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hadsund/broparken-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/haslev/groenlandsgade-6/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/haslev/groenlandsgade-6/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hedensted/dalbyvej/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hedensted/dalbyvej/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/helsinge/vestergade-6a/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/helsinge/vestergade-6a/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/helsingoer/birkedalsvej-25/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/helsingoer/birkedalsvej-25/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/herlev/stationsalleen-7/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/herlev/stationsalleen-7/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/herning/messevejen-4/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/herning/messevejen-4/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/herning/viborgvej-71/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/herning/viborgvej-71/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hilleroed/carlsbergvej-34/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hilleroed/carlsbergvej-34/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hilleroed/centervaenget-9/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hilleroed/centervaenget-9/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hilleroed/frederiksvaerksgade-154/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hilleroed/frederiksvaerksgade-154/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hirtshals/doggerbanke-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hirtshals/doggerbanke-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hjoerring/aastrupvej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hjoerring/aastrupvej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hjoerring/skagensvej-100/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hjoerring/skagensvej-100/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hobro/hostrupvej-68/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hobro/hostrupvej-68/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/holbaek/taastrup-moellevej-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/holbaek/taastrup-moellevej-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/holstebro/herningvej-36/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/holstebro/herningvej-36/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/holstebro/vester-skolevej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/holstebro/vester-skolevej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/horsens/groenlandsvej-3a/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/horsens/groenlandsvej-3a/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/horsens/sundvej-92/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/horsens/sundvej-92/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/horsens/vejlevej-54/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/horsens/vejlevej-54/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hundige/over-boelgen-25/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hundige/over-boelgen-25/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hurup-thy/toftegade-48/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hurup-thy/toftegade-48/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hvidovre/immerkaer-27/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hvidovre/immerkaer-27/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hvidovre/sadelmagerporten-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hvidovre/sadelmagerporten-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/hvidovre/strandmarksvej-20/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/hvidovre/strandmarksvej-20/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ikast/thomas-poulsens-alle-10/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ikast/thomas-poulsens-alle-10/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ishoej/industriskellet-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ishoej/industriskellet-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/jyllinge/jyllinge-centret-47/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/jyllinge/jyllinge-centret-47/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kalundborg/elmegade-22/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kalundborg/elmegade-22/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kastrup/amager-landevej-42/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kastrup/amager-landevej-42/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kastrup/kongelundsvej-479/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kastrup/kongelundsvej-479/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-n/kbh-noerrebro-noerrebrogade/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-n/kbh-noerrebro-noerrebrogade/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-nv/lygten-49/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-nv/lygten-49/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-nv/peter-roerdams-vej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-nv/peter-roerdams-vej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-nv/ruten-6-tingbjerg/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-nv/ruten-6-tingbjerg/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-oe/emdrupvej-22/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-oe/emdrupvej-22/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-oe/hans-knudsens-plads-1b/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-oe/hans-knudsens-plads-1b/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-oe/oesterbrogade-111-113/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-oe/oesterbrogade-111-113/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/amager-landevej-244/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/amager-landevej-244/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/amagerbrogade-114/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/amagerbrogade-114/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/amagerbrogade-185/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/amagerbrogade-185/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/kongelundsvej-65/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/kongelundsvej-65/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/oeresundsvej-154/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-s/oeresundsvej-154/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-v/kalvebod-brygge-59/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-v/kalvebod-brygge-59/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-v/vesterbrogade-25/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koebenhavn-v/vesterbrogade-25/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/koege/oelbycenter-4/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/koege/oelbycenter-4/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kokkedal/hoejengen-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kokkedal/hoejengen-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kolding/mosevej-1a/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kolding/mosevej-1a/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kolding/sommerfuglevej-8/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kolding/sommerfuglevej-8/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/kolding/vejlevej-114/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/kolding/vejlevej-114/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/korsoer/motalavej-141/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/korsoer/motalavej-141/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/lyngby/christian-x-s-alle-3-7/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/lyngby/christian-x-s-alle-3-7/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/maribo/brovejen-34/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/maribo/brovejen-34/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/middelfart/brovejen-14/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/middelfart/brovejen-14/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/naestved/erantisvej-44/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/naestved/erantisvej-44/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/naestved/fejoevej-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/naestved/fejoevej-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/nakskov/vejlegadebro-6-8/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/nakskov/vejlegadebro-6-8/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/nexoe/nexoe-koebmagergade/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/nexoe/nexoe-koebmagergade/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/noerresundby/thistedvej-1-d/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/noerresundby/thistedvej-1-d/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/nordhavn/goeteborg-plads-16/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/nordhavn/goeteborg-plads-16/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/nyborg/storebaeltsvej-5/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/nyborg/storebaeltsvej-5/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/nykoebing-f/toemmergade-12/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/nykoebing-f/toemmergade-12/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/nykoebing-m/groennegade-12/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/nykoebing-m/groennegade-12/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/nykoebing/havnegade-10/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/nykoebing/havnegade-10/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/odder/banegaardsgade-30/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/odder/banegaardsgade-30/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/odense-c/slotsgade-20/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/odense-c/slotsgade-20/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/odense-c/thorslundsvej-1a/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/odense-c/thorslundsvej-1a/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/odense-soe/cikorievej-2a/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/odense-soe/cikorievej-2a/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/odense-sv/bondovej-5/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/odense-sv/bondovej-5/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/odense-v/bystaevnevej-3/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/odense-v/bystaevnevej-3/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/odense/munkebjergvaenget-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/odense/munkebjergvaenget-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/praestoe/naebvej-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/praestoe/naebvej-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/randers-soe/marsvej-4/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/randers-soe/marsvej-4/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/randers/jernbanegade-23/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/randers/jernbanegade-23/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ribe/saltgade-19/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ribe/saltgade-19/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ringe/bygmestervej-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ringe/bygmestervej-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ringkoebing/skaadsmosevej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ringkoebing/skaadsmosevej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ringsted/klosterkrogen-13/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ringsted/klosterkrogen-13/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/ringsted/odinsvej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/ringsted/odinsvej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/risskov/frijsenborgvej-5/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/risskov/frijsenborgvej-5/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/risskov/ravnsoevej-60/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/risskov/ravnsoevej-60/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/roedby/faergevej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/roedby/faergevej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/roedovre/roskildevej-340/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/roedovre/roskildevej-340/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/roenne/zahrtmannsvej-98/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/roenne/zahrtmannsvej-98/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/roskilde/holbaekvej-7/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/roskilde/holbaekvej-7/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/roskilde/koebenhavnsvej-85/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/roskilde/koebenhavnsvej-85/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/saeby/saebygaardvej-29/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/saeby/saebygaardvej-29/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/silkeborg/christian-8-s-vej-8/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/silkeborg/christian-8-s-vej-8/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/silkeborg/noerrevaenget-49/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/silkeborg/noerrevaenget-49/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/silkeborg/nordre-hoejmarksvej-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/silkeborg/nordre-hoejmarksvej-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/skagen/chr-xs-vej-53/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/skagen/chr-xs-vej-53/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/skanderborg/vestergade-133/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/skanderborg/vestergade-133/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/skive/marius-jensens-vej-1b/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/skive/marius-jensens-vej-1b/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/skjern/vardevej-87/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/skjern/vardevej-87/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/skovlunde/malmparken-17/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/skovlunde/malmparken-17/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/slagelse/marievangsvej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/slagelse/marievangsvej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/slagelse/nordre-ringgade-24/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/slagelse/nordre-ringgade-24/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/slagelse/soroevej-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/slagelse/soroevej-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/soeborg/hoeje-gladsaxe-torv-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/soeborg/hoeje-gladsaxe-torv-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/soenderborg/centerpassagen-5/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/soenderborg/centerpassagen-5/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/soendersoe/toftekaer-6/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/soendersoe/toftekaer-6/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/solroed-strand/solroed-center-93/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/solroed-strand/solroed-center-93/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/soroe/apotekervej-19/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/soroe/apotekervej-19/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/stege/vasen-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/stege/vasen-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/struer/industrivej-3/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/struer/industrivej-3/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/svendborg/moelmarksvej-185/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/svendborg/moelmarksvej-185/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/taastrup/hveen-boulevard-1-233/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/taastrup/hveen-boulevard-1-233/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/thisted/oesterbakken-71/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/thisted/oesterbakken-71/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vaeggerloese/stovby-ringvej-5b/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vaeggerloese/stovby-ringvej-5b/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/valby/centerparken-34/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/valby/centerparken-34/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/valby/roskildevej-168/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/valby/roskildevej-168/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/valby/sjaeloer-boulevard-141-143/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/valby/sjaeloer-boulevard-141-143/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/valby/soendre-fasanvej-90-st-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/valby/soendre-fasanvej-90-st-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/valby/torveporten-8/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/valby/torveporten-8/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vallensbaek-nordmark/blomsterengen-10/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vallensbaek-nordmark/blomsterengen-10/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/varde/vestre-landevej-71/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/varde/vestre-landevej-71/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vejen/fr-d-7-s-gade-38/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vejen/fr-d-7-s-gade-38/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vejle/flegmade-60/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vejle/flegmade-60/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vejle/noerremark-center-4/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vejle/noerremark-center-4/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vejle/vindinggaard-centret-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vejle/vindinggaard-centret-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/viborg/hamlen-2a/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/viborg/hamlen-2a/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/viborg/marsk-stigs-vej-1/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/viborg/marsk-stigs-vej-1/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/viby-j/christian-x-s-vej-112/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/viby-j/christian-x-s-vej-112/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/virum/hummeltoftevej-14/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/virum/hummeltoftevej-14/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vojens/hans-grams-gade-2/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vojens/hans-grams-gade-2/" hreflang="da-DK" />
+    </url>
+    <url>
+        <loc>https://www.lidl.dk/s/da-DK/findbutik/vordingborg/marienbergvej-104/</loc>
+        <xhtml:link rel="alternate" href="https://www.lidl.dk/s/da-DK/findbutik/vordingborg/marienbergvej-104/" hreflang="da-DK" />
+    </url>
+</urlset>
+<!-- XML Sitemap generated by @nuxtjs/sitemap v8.3.4 at 2026-10-11T05:14:40.159Z -->
