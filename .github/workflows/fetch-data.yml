@@ -1,0 +1,40 @@
+name: Fetch source data
+
+# Runs where outbound network exists. Fetches official-API offers (if secrets are set)
+# and schema.org recipe data for the URLs in data/recipe_sources.txt, then commits the
+# raw files to the `data` branch. The backend loads them via hjemmefra.tools.load_sources.
+on:
+  workflow_dispatch:
+    inputs:
+      zip:
+        description: Postal code to fetch offers for
+        default: "4200"
+  schedule:
+    - cron: "17 5 * * 1,4"  # Monday and Thursday mornings UTC
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ./backend
+      - name: Fetch
+        env:
+          HJEMMEFRA_SALLING_API_TOKEN: ${{ secrets.HJEMMEFRA_SALLING_API_TOKEN }}
+          HJEMMEFRA_TJEK_API_KEY: ${{ secrets.HJEMMEFRA_TJEK_API_KEY }}
+        run: |
+          python -m hjemmefra.tools.fetch_sources --out fetched --zip "${{ github.event.inputs.zip || '4200' }}" --recipe-urls data/recipe_sources.txt
+      - name: Commit to data branch
+        run: |
+          git config user.name "hjemmefra-data-bot"
+          git config user.email "noreply@example.invalid"
+          git fetch origin data || true
+          git worktree add -B data out origin/data || git worktree add -B data out
+          mkdir -p out/fetched && rm -rf out/fetched/* && cp -r fetched/. out/fetched/
+          cd out && git add -A && (git commit -m "Fetch source data $(date -u +%FT%TZ)" || echo "no changes") && git push -u origin data
