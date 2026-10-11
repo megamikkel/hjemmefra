@@ -13,7 +13,7 @@ from decimal import Decimal
 from typing import Dict, Iterable, List, Optional, Sequence
 
 from hjemmefra.core.confidence import Confidence, MatchConfidence
-from hjemmefra.core.units import Quantity, UnitConversionUnknown, compatible
+from hjemmefra.core.units import Quantity, Unit, UnitConversionUnknown, compatible
 from hjemmefra.domain.household import Allergen, DietType, Household
 from hjemmefra.domain.offer import NormalizedOffer
 from hjemmefra.domain.product import CanonicalProduct, StorageType
@@ -147,6 +147,14 @@ def match_ingredients(ingredients: Iterable[RecipeIngredient], products: Dict[st
                     if pkg.unit.value == "stk" and product.base_unit.value != "stk" and product.piece_size_estimate is not None:
                         # sold per piece ("Squash 1 stk."): price is exact, weight per piece is a documented estimate
                         pkg = Quantity(pkg.value * product.piece_size_estimate, product.base_unit)
+                        qty_estimate = True
+                    elif pkg.unit.value != "stk" and product.base_unit.value == "stk" and product.piece_size_estimate is not None \
+                            and pkg.dimension.value == "MASS":
+                        # sold by weight, counted in pieces ("Tortillas 370 g" for "8 tortillas"): whole pieces only, rounded down
+                        pieces = (pkg.base_amount() / product.piece_size_estimate).to_integral_value(rounding="ROUND_FLOOR")
+                        if pieces < 1:
+                            raise UnitConversionUnknown("package smaller than one piece")
+                        pkg = Quantity(pieces, Unit.STK)
                         qty_estimate = True
                     pkg = pkg.convert_to(product.base_unit, product.density_g_per_ml)
                 except UnitConversionUnknown:

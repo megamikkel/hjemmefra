@@ -59,3 +59,14 @@ def test_unknown_major_ingredient_rejects_recipe(demo_data):
     plan = generate_plan(make_request(days=1, allow_unpriced_items=True, optimization_modes=[OptimizationMode.CHEAPEST]), d)
     sc = plan.scenarios[0]
     assert sc.status == PlanStatus.NO_FEASIBLE_PLAN and "UNKNOWN_MAJOR_INGREDIENT" in sc.infeasibility_reason
+
+
+def test_many_pieces_are_never_a_minor_unpriced_item(demo_data):
+    from hjemmefra.planning.candidates import generate_candidates
+    data, _ = demo_data
+    tacos = next(r for r in data.recipes if r.recipe_id == "tacos_okse")
+    r = tacos.model_copy(update={"recipe_id": "tacos_web", "source": "https://e.test/tacos"})
+    opts = {}  # no purchase options at all -> tortillas (8 stk) and beef are missing
+    req = make_request(days=1, allow_unpriced_items=True, main_meals_only=False)
+    cands, rej = generate_candidates([r], data.household, data.products, opts, {}, req, 4)
+    assert not cands and rej[0]["reason"].startswith("NO_PRICE_FOR_MAJOR_INGREDIENT")

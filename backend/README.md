@@ -55,7 +55,9 @@ and degrade gracefully (missing key or network error becomes a coverage warning,
 |---|---|---|---|
 | Salling Group API (`/v1/food-waste`, `/v1/stores`) | Netto, Bilka, føtex clearance offers with stock; store catalog | `HJEMMEFRA_SALLING_API_TOKEN` | STORE |
 | Tjek / eTilbudsavis API (`/v2/offers`) | Weekly leaflet offers for Lidl, REMA 1000, Netto, Bilka, føtex, ... | `HJEMMEFRA_TJEK_API_KEY` | REGIONAL (`tjek:<postal>`) |
-| schema.org/Recipe JSON-LD importer | Recipes from pages you point at (no crawling) | none | `review_required` until ingredients resolve |
+| schema.org/Recipe importer | Recipes (JSON-LD, embedded JSON or microdata) from listed URLs and Valdemarsro's sitemap; robots.txt and Crawl-delay honoured, capped, incremental, facts only (no method text) | none | unresolved lines become clearly marked unpriced items or block the recipe |
+| Lidl public offer pages | Weekly campaign tiles incl. Lidl Plus member/coupon prices | none (PUBLIC_PAGE) | NATIONAL |
+| REMA 1000 public pages | Regular and campaign prices of products embedded in REMA's recipe pages; the leaflet /api is robots-disallowed and not used | none (PUBLIC_PAGE) | NATIONAL |
 
 Set `HJEMMEFRA_SOURCE_POSTAL_CODE=4200` and call `POST /admin/ingestion/run`, `POST /admin/stores/import-salling`,
 `POST /admin/recipes/import {"urls": [...]}`. Keys are obtained from developer.sallinggroup.com and tjek.com/developers.
@@ -63,9 +65,21 @@ Regular leaflet offers for Lidl/REMA are only available through Tjek; retailer w
 The cloud environment used for development blocks outbound traffic to these hosts, so the adapters are verified
 against recorded fixtures in `fixtures/live/` (see `tests/ingestion/test_live_adapters.py`).
 
+Run everything on GitHub Actions ("Fetch source data", inputs `task`, `max_new_recipes`) and plan locally from the `data` branch:
+
+```bash
+git archive origin/data fetched | tar -x -C /tmp
+python -m hjemmefra.tools.plan_cli --data /tmp/fetched --household household.json --out plan.json
+python -m hjemmefra.tools.render_plan plan.json --mode FAMILY
+```
+
 ## Known limitations
-- Live adapters are fixture-tested but not yet run against the real APIs (needs network + keys).
-  Tjek offers are mapped to a postal-code region, not to individual stores.
+- Salling/Tjek API adapters are fixture-tested but unused without keys. Netto, Bilka, føtex and Coop
+  leaflets are PDFs/viewers and are not parsed yet, so plans only use Lidl and REMA prices.
+- REMA coverage is limited to products that appear on REMA recipe pages (~570 prices).
+- Stores are per-chain placeholders at the postal centroid ("butik ikke verificeret") until a store
+  catalog is loaded; prices used are national, so only the travel estimate depends on it.
+- "Family friendly" has no source signal yet; FAMILY mode relies on the household's own ratings.
 - Distance is straight-line × 1.3, labelled as such; no routing provider.
 - Leftovers are modelled as "cook double, eat next day"; partial-ingredient
   leftovers (e.g. 250 g cooked chicken reused in another dish) are tracked by

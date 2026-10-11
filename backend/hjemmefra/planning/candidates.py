@@ -195,10 +195,16 @@ def generate_candidates(recipes: Sequence[Recipe], household: Household, product
         # an ingredient fully covered by pantry is not "missing"
         still_missing = [m for m in missing if pantry_base.get(m, Decimal(0)) < next(s.base_qty for s in scaled if s.ingredient_id == m)]
         if still_missing:
-            missing_major = [m for m in still_missing
-                             if (products.get(next(si.canonical_id for si in scaled if si.ingredient_id == m)) or None) is None
-                             or products[next(si.canonical_id for si in scaled if si.ingredient_id == m)].protein_group
-                             or next(si.base_qty for si in scaled if si.ingredient_id == m) > req.max_unpriced_line_base_qty * Decimal(servings) / Decimal(max(r.servings, 1))]
+            def _major(m: str) -> bool:
+                si = next(x for x in scaled if x.ingredient_id == m)
+                prod = products.get(si.canonical_id)
+                if prod is None or prod.protein_group:
+                    return True
+                per_recipe = si.base_qty * Decimal(max(r.servings, 1)) / Decimal(servings)  # back to the recipe's own amount
+                if prod.base_unit.value == "stk":
+                    return per_recipe > 2
+                return per_recipe > req.max_unpriced_line_base_qty
+            missing_major = [m for m in still_missing if _major(m)]
             if missing_major:
                 rejected.append({"recipe_id": r.recipe_id, "reason": f"NO_PRICE_FOR_MAJOR_INGREDIENT:{missing_major[0]}"})
                 continue

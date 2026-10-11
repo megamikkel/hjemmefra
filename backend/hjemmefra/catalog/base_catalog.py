@@ -179,7 +179,7 @@ EGG_GRAMS = 55  # one egg ~ 55 g edible, for the main-meal protein threshold onl
 # Recipe-level piece/density estimates for demo products (ESTIMATES, conversion only).
 DEMO_PIECE_ESTIMATES = {"ONION": 150, "BELL_PEPPER": 150, "BROCCOLI": 400, "BEANS_CANNED": 400, "TOMATO_CANNED": 400, "COCONUT_MILK": 400,
                         "CHICKPEAS_CANNED": 400, "CREAM": 250, "POTATO": 150, "CARROT": 75, "CHICKEN_BREAST": 150,
-                        "SALMON_FILLET": 125, "WHOLE_CHICKEN": 1300}
+                        "SALMON_FILLET": 125, "WHOLE_CHICKEN": 1300, "TORTILLA": 46}  # TORTILLA: grams per piece (8 per 370 g)
 DEMO_DENSITY_ESTIMATES = {"RICE": "0.85", "PASTA": "0.45", "LENTILS": "0.8", "CHEESE_GRATED": "0.4"}
 
 
