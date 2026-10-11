@@ -6,6 +6,8 @@ option) -> ranking by cheapest standalone cost + preference -> Top-K.
 """
 from __future__ import annotations
 
+import re
+
 from dataclasses import dataclass, field
 from datetime import date
 from decimal import ROUND_CEILING, Decimal
@@ -41,6 +43,25 @@ class RecipeCandidate:
     unpriced: List[dict] = field(default_factory=list)  # {"line", "reason"}: bought too, price unknown
 
 
+_SPOON_UNITS = {"tsk", "spsk"}
+
+
+def is_minor_line(ing, products: Dict[str, CanonicalProduct], req: PlanRequest, scale: Decimal) -> bool:
+    """An ingredient that may be listed without a price: small amount, not a protein source."""
+    prod = products.get(ing.canonical_ingredient_id)
+    if prod is not None and prod.protein_group:
+        return False
+    if ing.unit.value in _SPOON_UNITS:
+        return True
+    if ing.unit.value == "stk":
+        return ing.quantity * scale <= 2
+    try:
+        base = Quantity(ing.quantity * scale, ing.unit).base_amount()
+    except Exception:  # noqa: BLE001
+        return False
+    return base <= req.max_unpriced_line_base_qty
+
+
 def unpriced_allowed(household: Household, req: PlanRequest) -> bool:
     """Unknown ingredients cannot be checked for allergens/diet, so they are only ever allowed
     when the household has no such hard constraints."""
@@ -56,6 +77,9 @@ def hard_filter(recipe: Recipe, household: Household, products: Dict[str, Canoni
             return "REVIEW_REQUIRED"
         if len(unresolved) > req.max_unpriced_per_recipe:
             return f"TOO_MANY_UNKNOWN_INGREDIENTS:{len(unresolved)}"
+        major = [i for i in unresolved if not is_minor_line(i, products, req, Decimal(1))]
+        if major:
+            return f"UNKNOWN_MAJOR_INGREDIENT:{(major[0].note or major[0].canonical_ingredient_id)[:40]}"
     if set(recipe.allergens) & set(p.allergens):
         return "ALLERGEN"
     max_prep = req.max_prep_minutes or p.max_prep_minutes
@@ -171,6 +195,13 @@ def generate_candidates(recipes: Sequence[Recipe], household: Household, product
         # an ingredient fully covered by pantry is not "missing"
         still_missing = [m for m in missing if pantry_base.get(m, Decimal(0)) < next(s.base_qty for s in scaled if s.ingredient_id == m)]
         if still_missing:
+            missing_major = [m for m in still_missing
+                             if (products.get(next(si.canonical_id for si in scaled if si.ingredient_id == m)) or None) is None
+                             or products[next(si.canonical_id for si in scaled if si.ingredient_id == m)].protein_group
+                             or next(si.base_qty for si in scaled if si.ingredient_id == m) > req.max_unpriced_line_base_qty * Decimal(servings) / Decimal(max(r.servings, 1))]
+            if missing_major:
+                rejected.append({"recipe_id": r.recipe_id, "reason": f"NO_PRICE_FOR_MAJOR_INGREDIENT:{missing_major[0]}"})
+                continue
             if unpriced_allowed(household, req) and len(unpriced) + len(still_missing) <= req.max_unpriced_per_recipe:
                 # keep the recipe; these ingredients become "buy too, price unknown" and leave the priced model
                 for si in scaled:
@@ -186,5 +217,16 @@ def generate_candidates(recipes: Sequence[Recipe], household: Household, product
         cands.append(RecipeCandidate(r, servings, Decimal(servings) / Decimal(r.servings), scaled, score, cost, [], unpriced))
     # rank: cheaper and better liked first; deterministic tiebreak
     cands.sort(key=lambda c: ((c.standalone_cost_minor or 0) + 1500 * len(c.unpriced) - c.score.total * 300, c.recipe.recipe_id))
+    # one candidate per dish name: two "Frikadeller" recipes are not variety
+    seen_names: set = set()
+    deduped = []
+    for c in cands:
+        key = re.sub(r"[^a-zæøå]+", " ", c.recipe.name.lower()).strip()
+        if key in seen_names:
+            rejected.append({"recipe_id": c.recipe.recipe_id, "reason": "DUPLICATE_DISH_NAME"})
+            continue
+        seen_names.add(key)
+        deduped.append(c)
+    cands = deduped
     limit = max(req.candidate_limit_per_day, req.days + 2)
     return cands[:limit], rejected

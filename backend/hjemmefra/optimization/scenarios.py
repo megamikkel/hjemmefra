@@ -44,11 +44,11 @@ def run_mode(mode: OptimizationMode, ctx: OptimizationContext, relax_budget: boo
 
 
 def diagnose(ctx: OptimizationContext, ov: dict, fallback: Optional[str]) -> str:
+    top = ", ".join(f"{k} {v}" for k, v in list(ctx.rejection_summary.items())[:4])
     if not ctx.candidates:
-        return "NO_RECIPE_CANDIDATES: ingen opskrifter opfylder de hårde krav (allergener, kost, tid eller prisdata)."
+        return f"NO_RECIPE_CANDIDATES: ingen opskrifter opfylder de hårde krav. Hyppigste udelukkelser: {top or 'ingen opskrifter'}."
     if not ctx.stores:
         return "NO_STORES_IN_RANGE: ingen butikker inden for den tilladte afstand."
-    top = ", ".join(f"{k} {v}" for k, v in list(ctx.rejection_summary.items())[:4])
     lf = sum(1 for c in ctx.candidates if c.recipe.leftover_friendly) if ctx.request.allow_leftover_meals else 0
     max_days = len(ctx.candidates) * ctx.request.max_recipe_repeats + lf
     if max_days < len(ctx.days):

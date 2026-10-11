@@ -91,6 +91,9 @@ class PlanRequest(BaseModel):
     min_protein_food_g_per_serving: int = 75
     min_food_g_per_serving: int = 200
     max_unpriced_per_recipe: int = Field(default=3, ge=0, le=10)
+    # Only MINOR ingredients may be unpriced: never a protein source, and at most this much per recipe line
+    # (grams/ml after scaling), or a spoon-measure, or at most 2 pieces.
+    max_unpriced_line_base_qty: int = 100
 
 
 class PurchaseLine(BaseModel):

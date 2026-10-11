@@ -104,6 +104,15 @@ PURCHASABLE += [
     _p("ICING_SUGAR", "Flormelis", "baking", Unit.G, ["flormelis"], 365, A, vegan=True, density=0.55),
     _p("VANILLA_SUGAR", "Vaniljesukker", "baking", Unit.G, ["vaniljesukker"], 365, A, vegan=True, density=0.85),
     _p("CORNSTARCH", "Majsstivelse", "baking", Unit.G, ["majsstivelse", "maizena"], 365, A, vegan=True, density=0.55),
+    _p("COTTAGE_CHEESE", "Hytteost", "dairy", Unit.G, ["hytteost"], 14, allergens=[M, L], protein="DAIRY", density=1.0),
+    _p("RICOTTA", "Ricotta", "dairy", Unit.G, ["ricotta"], 14, allergens=[M, L], density=1.0),
+    _p("PUFF_PASTRY", "Butterdej", "frozen", Unit.G, ["butterdej", "plader butterdej"], 365, StorageType.FROZEN, allergens=[G, M]),
+    _p("LAMB_MINCED", "Hakket lammekød", "meat", Unit.G, ["hakket lammekød", "hakket lam"], 3, protein="LAMB", veg=False),
+    _p("BREAD", "Brød", "bread", Unit.G, ["brød", "skiver brød", "grydebrød", "toastbrød", "franskbrød", "flutes", "skiver flutes"], 5, A, allergens=[G], vegan=True, piece=40),
+    _p("SHRIMP", "Rejer", "fish", Unit.G, ["rejer", "pillede rejer", "kogte rejer"], 3, protein="FISH", allergens=[Allergen.SHELLFISH], veg=False),
+    _p("PORK_CHOPS", "Koteletter", "meat", Unit.G, ["koteletter", "svinekoteletter", "kotelet"], 3, protein="PORK", veg=False, piece=180),
+    _p("PORK_TENDERLOIN", "Svinemørbrad", "meat", Unit.G, ["svinemørbrad", "mørbrad"], 3, protein="PORK", veg=False, piece=500),
+    _p("SAUSAGES", "Pølser", "meat", Unit.G, ["wienerpølser", "pølser", "grillpølser", "frankfurter"], 14, protein="PORK", veg=False, piece=50),
     _p("TUNA", "Tun", "fish", Unit.G, ["tun i vand", "tun i olie", "tun", "tunfisk", "yellowfin tun i vand"], 730, A, protein="FISH", allergens=[F], veg=False, piece=140),
     _p("CHORIZO", "Chorizo", "meat", Unit.G, ["chorizo"], 30, protein="PORK", veg=False),
     _p("PARMA_HAM", "Skinke", "meat", Unit.G, ["parmaskinke", "serranoskinke", "kogt skinke", "hamburgerryg"], 14, protein="PORK", veg=False),
@@ -158,7 +167,7 @@ EXTRA_ALIASES = {
     "CHICKEN_BREAST": ["kyllingebryst", "kyllingebrystfileter"],
     "ONION": ["løg", "rødløg", "skalotteløg", "zittauerløg", "gule løg"],
     "BELL_PEPPER": ["peberfrugt", "peberfrugter", "rød peber", "snack peber", "spidspeber", "rød peberfrugt", "gul peberfrugt"],
-    "POTATO": ["babykartofler", "kartofler", "nye kartofler", "bagekartofler", "melede kartofler"],
+    "POTATO": ["babykartofler", "kartofler", "nye kartofler", "bagekartofler", "bagekartoffel", "melede kartofler", "kartoffel"],
     "CREAM": ["piskefløde", "fløde", "madlavningsfløde", "kaffefløde"],
     "CHICKPEAS_CANNED": ["kikærter", "dåser kikærter"],
     "CHEESE_GRATED": ["revet ost", "revet mozzarella", "revet pizzaost", "revet parmesan"],
@@ -169,7 +178,8 @@ EGG_GRAMS = 55  # one egg ~ 55 g edible, for the main-meal protein threshold onl
 
 # Recipe-level piece/density estimates for demo products (ESTIMATES, conversion only).
 DEMO_PIECE_ESTIMATES = {"ONION": 150, "BELL_PEPPER": 150, "BROCCOLI": 400, "BEANS_CANNED": 400, "TOMATO_CANNED": 400, "COCONUT_MILK": 400,
-                        "CHICKPEAS_CANNED": 400, "CREAM": 250, "POTATO": 150, "CARROT": 75}
+                        "CHICKPEAS_CANNED": 400, "CREAM": 250, "POTATO": 150, "CARROT": 75, "CHICKEN_BREAST": 150,
+                        "SALMON_FILLET": 125, "WHOLE_CHICKEN": 1300}
 DEMO_DENSITY_ESTIMATES = {"RICE": "0.85", "PASTA": "0.45", "LENTILS": "0.8", "CHEESE_GRATED": "0.4"}
 
 

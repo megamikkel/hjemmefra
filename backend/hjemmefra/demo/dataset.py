@@ -43,7 +43,7 @@ def _p(cid, name, cat, unit, aliases=(), shelf=None, storage=StorageType.CHILLED
 PRODUCTS = [
     _p("CHICKEN_BREAST", "Kyllingebryst", "meat", Unit.G, ["kyllingebrystfilet", "kyllingefilet", "brystfilet af kylling"], 4, protein="CHICKEN", veg=False),
     _p("WHOLE_CHICKEN", "Hel kylling", "meat", Unit.G, ["hel kylling", "kylling hel"], 4, protein="CHICKEN", veg=False),
-    _p("BEEF_MINCED_8_12", "Hakket oksekød 8-12 %", "meat", Unit.G, ["hakket oksekød 8-12%", "hakket oksekød"], 3, protein="BEEF", veg=False, fat=10, sub="MINCED_MEAT"),
+    _p("BEEF_MINCED_8_12", "Hakket oksekød 8-12 %", "meat", Unit.G, ["hakket oksekød 8-12%", "hakket oksekød", "hakket oksekød 8 12"], 3, protein="BEEF", veg=False, fat=10, sub="MINCED_MEAT"),
     _p("BEEF_MINCED_14_18", "Hakket oksekød 14-18 %", "meat", Unit.G, ["hakket oksekød 14-18%"], 3, protein="BEEF", veg=False, fat=16, sub="MINCED_MEAT"),
     _p("PORK_MINCED", "Hakket svinekød", "meat", Unit.G, ["hakket svinekød", "hakket grisekød"], 3, protein="PORK", veg=False, fat=12),
     _p("SALMON_FILLET", "Laksefilet", "fish", Unit.G, ["laks", "laksefilet"], 2, protein="FISH", allergens=[Allergen.FISH], veg=False),

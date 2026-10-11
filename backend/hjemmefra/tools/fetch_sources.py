@@ -82,6 +82,7 @@ def main(argv=None) -> int:
     ap.add_argument("--max-new-recipes", type=int, default=150, help="cap on newly fetched recipe pages per run")
     ap.add_argument("--delay", type=float, default=2.0, help="seconds between page requests (raised to the site's Crawl-delay)")
     ap.add_argument("--public-offers", default="", help="comma list of public-page offer sources: lidl,rema")
+    ap.add_argument("--offer-pages", type=int, default=60, help="max pages per public-page offer source")
     a = ap.parse_args(argv)
     out = Path(a.out)
     (out / "recipes").mkdir(parents=True, exist_ok=True)
@@ -130,7 +131,7 @@ def main(argv=None) -> int:
             else:
                 manifest["failed"][f"offers:{src}"] = "unknown source"
                 continue
-            res = A(delay=a.delay).fetch()
+            res = A(delay=a.delay, max_pages=a.offer_pages).fetch()
             if not res.ok:
                 manifest["failed"][f"offers:{src}"] = res.error
                 continue

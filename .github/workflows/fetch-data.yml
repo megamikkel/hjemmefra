@@ -81,7 +81,7 @@ jobs:
             --recipe-urls data/recipe_sources.txt \
             --discover-sitemap https://www.valdemarsro.dk \
             --max-new-recipes "${{ github.event.inputs.max_new_recipes || '150' }}" --delay 2 \
-            --public-offers lidl,rema
+            --public-offers lidl,rema --offer-pages 300
           echo "recipes now: $(ls fetched/recipes | wc -l)"
       - name: Commit to data branch
         if: ${{ github.event.inputs.task != 'probe' }}

@@ -142,7 +142,12 @@ def match_ingredients(ingredients: Iterable[RecipeIngredient], products: Dict[st
                 # Express the package in the PRODUCT's base unit: requirements are scaled into the same unit
                 # (planning.candidates.scale_recipe), so supply and demand are always compared like for like.
                 pkg = Quantity(offer.package_quantity * offer.package_count, offer.package_unit)  # type: ignore[arg-type]
+                qty_estimate = False
                 try:
+                    if pkg.unit.value == "stk" and product.base_unit.value != "stk" and product.piece_size_estimate is not None:
+                        # sold per piece ("Squash 1 stk."): price is exact, weight per piece is a documented estimate
+                        pkg = Quantity(pkg.value * product.piece_size_estimate, product.base_unit)
+                        qty_estimate = True
                     pkg = pkg.convert_to(product.base_unit, product.density_g_per_ml)
                 except UnitConversionUnknown:
                     report.rejected.append({"ingredient": ing.canonical_ingredient_id, "offer": offer.offer_id,
@@ -153,7 +158,7 @@ def match_ingredients(ingredients: Iterable[RecipeIngredient], products: Dict[st
                         continue
                     expl = (f"{ing.canonical_ingredient_id} matched '{offer.raw_title}' at {store.name}: "
                             f"canonical {product.canonical_id}" + (" (substitute in group)" if is_sub else "") +
-                            f", {pkg.value.normalize()} {pkg.unit.value}/pkg, price confidence {offer.price_confidence.value}, "
+                            f", {pkg.value.normalize()} {pkg.unit.value}/pkg{' (stykvægt anslået)' if qty_estimate else ''}, price confidence {offer.price_confidence.value}, "
                             f"valid {offer.valid_from}..{offer.valid_to}, scope {offer.scope.value}")
                     opts.append(PurchaseOption(
                         option_id=f"{offer.offer_id}@{store.store_id}",

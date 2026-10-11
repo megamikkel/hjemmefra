@@ -47,3 +47,15 @@ def test_unpriced_never_allowed_with_allergens_or_too_many(demo_data):
     plan = generate_plan(make_request(days=1, allow_unpriced_items=True, max_unpriced_per_recipe=2,
                                       optimization_modes=[OptimizationMode.CHEAPEST]), _with_unknown_ingredient(data, 3))
     assert plan.scenarios[0].status == PlanStatus.NO_FEASIBLE_PLAN
+
+
+def test_unknown_major_ingredient_rejects_recipe(demo_data):
+    data, _ = demo_data
+    base = next(r for r in data.recipes if r.recipe_id == "spaghetti_bolognese")
+    big = RecipeIngredient(canonical_ingredient_id="UNRESOLVED:meat", quantity=Decimal(500), unit=Unit.G,
+                           note="500 g hakket hjortekød", unpriced=True, optional=True)
+    r = base.model_copy(update={"recipe_id": "bolo_big", "review_required": True, "ingredients": base.ingredients + [big]})
+    d = data.__class__(**{**data.__dict__, "recipes": [r]})
+    plan = generate_plan(make_request(days=1, allow_unpriced_items=True, optimization_modes=[OptimizationMode.CHEAPEST]), d)
+    sc = plan.scenarios[0]
+    assert sc.status == PlanStatus.NO_FEASIBLE_PLAN and "UNKNOWN_MAJOR_INGREDIENT" in sc.infeasibility_reason
