@@ -26,10 +26,11 @@ _MD_ING = re.compile(r'itemprop\s*=\s*["\']recipeIngredient["\'][^>]*>(.*?)</(?:
 _MD_NAME = re.compile(r'<h1[^>]*>(.*?)</h1>', re.S | re.I)
 _TAGS = re.compile(r"<[^>]+>")
 _DUR = re.compile(r"P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?")
-_QTY = re.compile(r"^\s*(\d+(?:[.,]\d+)?|\d+\s*/\s*\d+|½|¼|¾)\s*(?:(kg|g|gram|ml|cl|dl|l|liter|stk|spsk|tsk|dåse|dåser|pk|pakke|fed|bundt)\.?(?=\s|$))?\s*(.*)$", re.I)
+_QTY = re.compile(r"^\s*(\d+(?:[.,]\d+)?|\d+\s*/\s*\d+|½|¼|¾)\s*(?:(kg|g|gram|ml|cl|dl|l|liter|stk|spsk|tsk|dåse|dåser|pk|pakke|fed|bundt|håndfuld|knivspids|stængler|stængel|dryp|skiver|skive)\.?(?=\s|$))?\s*(.*)$", re.I)
 _FRACTIONS = {"½": Decimal("0.5"), "¼": Decimal("0.25"), "¾": Decimal("0.75")}
 # container words -> approximate base quantities only when the word itself carries the size; otherwise unknown
-_NON_UNIT_WORDS = {"dåse", "dåser", "fed", "bundt"}
+_NON_UNIT_WORDS = {"dåse", "dåser", "fed", "bundt", "håndfuld", "knivspids", "stængler", "stængel", "dryp", "skiver", "skive"}
+_PIECE_WORDS = {"dåse", "dåser", "fed", "stængler", "stængel"}  # one piece_size_estimate each
 
 
 @dataclass
@@ -65,8 +66,8 @@ def parse_ingredient_line(line: str) -> ParsedLine:
     if u:
         ul = u.lower().rstrip(".")
         if ul in _NON_UNIT_WORDS:
-            note = f"container word '{ul}' - package size unknown"
-            unit = Unit.STK if ul in ("fed", "bundt") else None
+            note = f"piece word '{ul}'"
+            unit = Unit.STK if ul in _PIECE_WORDS else None
         else:
             try:
                 unit = parse_unit(ul)
@@ -75,6 +76,7 @@ def parse_ingredient_line(line: str) -> ParsedLine:
     else:
         unit = Unit.STK  # "2 løg" -> 2 stk
     name = re.sub(r"\(.*?\)", "", rest).split(",")[0].strip()
+    name = re.sub(r"\s+\d+\s*%$", "", name)  # "cremefraiche 18 %" -> "cremefraiche"
     return ParsedLine(line, qty, unit, name, note)
 
 
@@ -108,19 +110,67 @@ def _find_recipe_node(blocks: List[str]) -> Optional[dict]:
     return None
 
 
+_STRIP = re.compile(r"<(style|script|noscript)[^>]*>.*?</\1>", re.S | re.I)
+_MD_PROP = re.compile(r'<[^>]*itemprop\s*=\s*["\'](prepTime|cookTime|totalTime|recipeYield)["\'][^>]*>', re.I)
+_CONTENT = re.compile(r'(?:content|datetime)\s*=\s*["\']([^"\']+)["\']', re.I)
+_ANY_SCRIPT = re.compile(r"<script[^>]*>(.*?)</script>", re.S | re.I)
+
+
+def _search_recipe(obj, depth: int = 0):
+    if depth > 12:
+        return None
+    if isinstance(obj, dict):
+        t = obj.get("@type")
+        if (t == "Recipe" or (isinstance(t, list) and "Recipe" in t)) and obj.get("recipeIngredient"):
+            return obj
+        for v in obj.values():
+            r = _search_recipe(v, depth + 1)
+            if r is not None:
+                return r
+    elif isinstance(obj, list):
+        for v in obj:
+            r = _search_recipe(v, depth + 1)
+            if r is not None:
+                return r
+    return None
+
+
+def _nested_json_recipe(html: str) -> Optional[dict]:
+    """Recipes embedded in app state (e.g. Next.js __NEXT_DATA__) rather than a JSON-LD tag."""
+    for block in _ANY_SCRIPT.findall(html):
+        if '"Recipe"' not in block or "recipeIngredient" not in block:
+            continue
+        b = block.strip()
+        if not b.startswith(("{", "[")):
+            continue
+        try:
+            found = _search_recipe(json.loads(b))
+        except json.JSONDecodeError:
+            continue
+        if found is not None:
+            return found
+    return None
+
+
 def _microdata_recipe(html: str) -> Optional[dict]:
     """Fallback for pages that mark ingredients up with schema.org microdata instead of JSON-LD."""
+    times = {}
+    for tag in _MD_PROP.finditer(html):
+        c = _CONTENT.search(tag.group(0))
+        if c:
+            times[tag.group(1)] = c.group(1)
+    html = _STRIP.sub("", html)
     ings = [_TAGS.sub("", x).strip() for x in _MD_ING.findall(html)]
     ings = [re.sub(r"\s+", " ", x) for x in ings if x]
     if not ings:
         return None
     m = _MD_NAME.search(html)
     return {"@type": "Recipe", "name": _TAGS.sub("", m.group(1)).strip() if m else "Importeret opskrift",
-            "recipeIngredient": ings, "_extracted_from": "microdata"}
+            "recipeIngredient": ings, "_extracted_from": "microdata", **times}
 
 
 def extract_recipe_node(html: str) -> Optional[dict]:
-    return _find_recipe_node(_LD.findall(html)) or _microdata_recipe(html)
+    return _find_recipe_node(_LD.findall(html)) or _nested_json_recipe(html) or _microdata_recipe(html)
 
 
 def _servings(v) -> int:
@@ -135,22 +185,45 @@ def recipe_from_jsonld(node: dict, url: str, resolver: ProductResolver) -> Impor
     ingredients: List[RecipeIngredient] = []
     needs_review = False
     for line in node.get("recipeIngredient") or []:
-        p = parse_ingredient_line(str(line))
+        line = re.sub(r"\s+", " ", str(line)).strip()
+        if not line or "{" in line or "itemprop" in line:
+            continue  # markup/CSS noise
+        p = parse_ingredient_line(line)
         match = resolver.resolve(p.name)
-        if match.confidence in (MatchConfidence.LOW, MatchConfidence.UNMATCHED) or p.quantity is None or p.unit is None:
+        prod = resolver.get(match.canonical_id) if match.canonical_id and match.confidence in (MatchConfidence.HIGH, MatchConfidence.MEDIUM) else None
+        if prod is not None and prod.is_staple:
+            ingredients.append(RecipeIngredient(canonical_ingredient_id=prod.canonical_id, quantity=p.quantity or Decimal(1),
+                                                unit=p.unit or Unit.STK, staple=True, optional=True, note=line))
+            continue
+        if prod is not None and prod.is_garnish and (p.quantity is None or p.unit is None):
+            ingredients.append(RecipeIngredient(canonical_ingredient_id=prod.canonical_id, quantity=Decimal(0), unit=prod.base_unit,
+                                                optional=True, note=f"{line} (pynt, mængde uoplyst)"))
+            continue
+        if prod is None or p.quantity is None or p.unit is None:
             needs_review = True
             review.append({"type": "LOW_CONFIDENCE_MATCH" if match.canonical_id else "UNMATCHED_PRODUCT", "source": url,
                            "line": line, "parsed_name": p.name, "canonical_id": match.canonical_id,
                            "confidence": match.confidence.value, "note": p.note})
-        cid = match.canonical_id or f"UNRESOLVED:{stable_hash(p.name)[:8]}"
-        prod = resolver.get(cid) if match.canonical_id else None
-        unit = p.unit or Unit.STK
-        if prod is not None and p.unit is not None and p.unit.value in ("stk",) and prod.base_unit.value != "stk":
-            needs_review = True
-            review.append({"type": "UNIT_CONVERSION_UNKNOWN", "source": url, "line": line, "canonical_id": cid,
-                           "note": f"'{p.unit.value}' vs product base unit {prod.base_unit.value}"})
-        ingredients.append(RecipeIngredient(canonical_ingredient_id=cid, quantity=p.quantity or Decimal(1), unit=unit,
-                                            note=str(line)))
+            ingredients.append(RecipeIngredient(canonical_ingredient_id=match.canonical_id or f"UNRESOLVED:{stable_hash(p.name)[:8]}",
+                                                quantity=p.quantity or Decimal(1), unit=p.unit or Unit.STK, note=line))
+            continue
+        qty, unit, est = p.quantity, p.unit, False
+        if unit == Unit.STK and prod.base_unit != Unit.STK:
+            if prod.piece_size_estimate is None:
+                needs_review = True
+                review.append({"type": "UNIT_CONVERSION_UNKNOWN", "source": url, "line": line, "canonical_id": prod.canonical_id,
+                               "note": f"pieces vs {prod.base_unit.value}; no piece_size_estimate"})
+            else:
+                qty, unit, est = qty * prod.piece_size_estimate, prod.base_unit, True
+        elif unit.value in ("ml", "cl", "dl", "l", "tsk", "spsk") and prod.base_unit == Unit.G:
+            if prod.density_g_per_ml is None:
+                needs_review = True
+                review.append({"type": "UNIT_CONVERSION_UNKNOWN", "source": url, "line": line, "canonical_id": prod.canonical_id,
+                               "note": "volume vs mass; no density"})
+            else:
+                est = True  # scale_recipe converts with the documented density estimate
+        ingredients.append(RecipeIngredient(canonical_ingredient_id=prod.canonical_id, quantity=qty, unit=unit,
+                                            quantity_is_estimate=est, note=line))
     steps = []
     for s in node.get("recipeInstructions") or []:
         if isinstance(s, str):
@@ -160,7 +233,7 @@ def recipe_from_jsonld(node: dict, url: str, resolver: ProductResolver) -> Impor
                 steps.extend(x.get("text", "") for x in s.get("itemListElement") or [] if isinstance(x, dict))
             else:
                 steps.append(s.get("text", ""))
-    name = str(node.get("name") or "Importeret opskrift")
+    name = re.sub(r"\s+", " ", str(node.get("name") or "Importeret opskrift")).strip()
     rid = f"web_{stable_hash(url)[:12]}"
     recipe = Recipe(recipe_id=rid, name=name, servings=_servings(node.get("recipeYield")), ingredients=ingredients,
                     instructions=[x for x in steps if x], prep_minutes=_duration_minutes(node.get("prepTime")),

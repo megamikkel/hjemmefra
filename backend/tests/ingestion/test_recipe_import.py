@@ -14,7 +14,7 @@ def test_parse_lines():
     p = parse_ingredient_line("2 løg")
     assert (p.quantity, p.unit.value, p.name) == (Decimal(2), "stk", "løg")
     p = parse_ingredient_line("1 dåse kokosmælk (400 ml)")
-    assert p.unit is None and "container" in p.note
+    assert p.unit.value == "stk" and "piece word" in p.note  # converted later via piece_size_estimate
     p = parse_ingredient_line("½ dl fløde")
     assert p.quantity == Decimal("0.5") and p.unit.value == "dl"
     assert parse_ingredient_line("salt og peber").quantity is None
@@ -54,3 +54,39 @@ def test_unquoted_type_and_microdata_fallback():
     md = '<h1>Frikadeller</h1><li itemprop="recipeIngredient">500 g <b>hakket svinekød</b></li><li itemprop="recipeIngredient">1 æg</li>'
     node = extract_recipe_node(md)
     assert node["name"] == "Frikadeller" and node["recipeIngredient"] == ["500 g hakket svinekød", "1 æg"]
+
+
+def test_staples_garnish_and_piece_estimates_with_base_catalog():
+    from hjemmefra.catalog.base_catalog import merged_catalog
+    from hjemmefra.recipes.importer import recipe_from_jsonld
+    resolver = ProductResolver(merged_catalog(PRODUCTS), NEGATIVE_ALIASES)
+    node = {"@type": "Recipe", "name": "Test", "recipeYield": "4", "recipeIngredient": [
+        "2 løg, finthakket", "2 fed hvidløg", "3 dl ris", "salt og friskkværnet peber", "2 spsk olivenolie",
+        "1 håndfuld frisk koriander", "2 dåser kidneybønner", "500 g hakket oksekød",
+        'div[itemprop="recipeInstructions"] > p.can-hover:hover{color:red}']}
+    r = recipe_from_jsonld(node, "https://example.test/x", resolver).recipe
+    by = {i.canonical_ingredient_id: i for i in r.ingredients}
+    assert not r.review_required, [i.note for i in r.ingredients]
+    assert by["ONION"].quantity == 300 and by["ONION"].unit.value == "g" and by["ONION"].quantity_is_estimate
+    assert by["GARLIC"].quantity == 10 and by["BEANS_CANNED"].quantity == 800
+    assert by["RICE"].unit.value == "dl" and by["RICE"].quantity_is_estimate
+    assert by["SALT_PEPPER"].staple and by["COOKING_OIL"].staple and by["FRESH_HERBS"].optional
+    assert len(r.ingredients) == 8  # CSS noise dropped
+
+
+def test_staples_require_household_opt_in():
+    from datetime import date
+    from hjemmefra.catalog.base_catalog import merged_catalog
+    from hjemmefra.demo.dataset import HOUSEHOLD
+    from hjemmefra.domain.plan import PlanRequest
+    from hjemmefra.planning.candidates import hard_filter
+    from hjemmefra.recipes.importer import recipe_from_jsonld
+    cat = merged_catalog(PRODUCTS)
+    r = recipe_from_jsonld({"@type": "Recipe", "name": "T", "recipeIngredient": ["500 g hakket oksekød", "salt og peber"]},
+                           "https://example.test/y", ProductResolver(cat)).recipe
+    req = PlanRequest(household_id="x", start_date=date(2026, 10, 5), days=1)
+    pm = {p.canonical_id: p for p in cat}
+    hh = HOUSEHOLD.model_copy(deep=True)
+    assert hard_filter(r, hh, pm, req) == "STAPLE_NOT_CONFIRMED:SALT_PEPPER"
+    hh.preferences.has_basic_staples = True
+    assert hard_filter(r, hh, pm, req) is None

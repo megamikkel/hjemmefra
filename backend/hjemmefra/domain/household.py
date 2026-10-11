@@ -72,6 +72,9 @@ class Preferences(BaseModel):
     child_friendly: bool = False
     preferred_store_ids: List[str] = Field(default_factory=list)
     leftover_preference: str = "ALLOW"  # ALLOW | PREFER | AVOID
+    # Household confirms it has basic staples (salt, pepper, oil, common dried spices, bouillon, sugar).
+    # Explicit opt-in; plans list every staple assumed so nothing is silently skipped.
+    has_basic_staples: bool = False
 
 
 class Household(BaseModel):

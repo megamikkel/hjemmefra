@@ -47,5 +47,10 @@ class CanonicalProduct(BaseModel):
     protein_group: Optional[str] = None  # e.g. CHICKEN, BEEF, PORK, FISH, VEG
     # conservative estimate of days until spoilage after purchase, by storage
     estimated_shelf_life_days: Optional[int] = None
+    # Estimated weight (g) or volume (ml) of one piece/container as a recipe counts it ("2 løg", "1 dåse").
+    # Always an ESTIMATE; used only to convert recipe quantities, never to price.
+    piece_size_estimate: Optional[Decimal] = None
+    is_staple: bool = False  # salt, pepper, oil, dried spices: covered only if the household declares basic staples
+    is_garnish: bool = False  # fresh herbs etc.: may be dropped when the recipe gives no measurable quantity
     # waste penalty weight (øre per base unit) when left unused; documented default by category
     version: int = 1

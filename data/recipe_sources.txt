@@ -1,16 +1,5 @@
-# One recipe URL per line. Pages must publish schema.org/Recipe JSON-LD (most Danish recipe sites do).
-https://www.valdemarsro.dk/kylling-i-karry/
-https://www.valdemarsro.dk/spaghetti-bolognese/
-https://www.valdemarsro.dk/frikadeller/
-https://www.valdemarsro.dk/tacos/
-https://www.valdemarsro.dk/lasagne/
-https://www.valdemarsro.dk/kyllingelaar-i-ovn/
-https://www.valdemarsro.dk/pasta-carbonara/
-https://www.valdemarsro.dk/boller-i-karry/
-https://www.valdemarsro.dk/chili-con-carne/
-https://www.valdemarsro.dk/butter-chicken/
+# Extra recipe URLs (one per line). Valdemarsro is also discovered automatically via its sitemap.
+# Pages must publish schema.org Recipe data (JSON-LD, embedded JSON or microdata).
 https://www.arla.dk/opskrifter/kylling-i-karry/
 https://www.arla.dk/opskrifter/frikadeller/
 https://www.arla.dk/opskrifter/lasagne/
-https://www.arla.dk/opskrifter/pasta-med-koedsovs/
-https://www.arla.dk/opskrifter/tortilla-med-kylling/

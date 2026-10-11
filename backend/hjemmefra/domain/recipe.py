@@ -18,6 +18,8 @@ class RecipeIngredient(BaseModel):
     required_attributes: dict = Field(default_factory=dict)  # e.g. {"fat_percentage_max": 12}
     accepts_frozen: bool = True
     note: Optional[str] = None
+    staple: bool = False  # basic staple; skipped only when household.has_basic_staples
+    quantity_is_estimate: bool = False  # converted via piece_size_estimate / density estimate
 
 
 class Recipe(BaseModel):

@@ -50,6 +50,8 @@ def hard_filter(recipe: Recipe, household: Household, products: Dict[str, Canoni
     if max_prep is not None and recipe.total_minutes > max_prep:
         return "MAX_PREP_TIME"
     for ing in recipe.ingredients:
+        if ing.staple and not p.has_basic_staples:
+            return f"STAPLE_NOT_CONFIRMED:{ing.canonical_ingredient_id}"
         prod = products.get(ing.canonical_ingredient_id)
         if prod is None:
             if not ing.optional:
@@ -73,6 +75,8 @@ def scale_recipe(recipe: Recipe, servings: int, products: Dict[str, CanonicalPro
     scale = Decimal(servings) / Decimal(recipe.servings)
     out: List[ScaledIngredient] = []
     for ing in recipe.ingredients:
+        if ing.optional and (ing.staple or ing.quantity == 0):
+            continue  # staples (household-confirmed) and unquantified garnish are not purchased
         prod = products.get(ing.canonical_ingredient_id)
         q = Quantity(ing.quantity * scale, ing.unit)
         if prod is not None and q.dimension != Quantity(Decimal(1), prod.base_unit).dimension:
