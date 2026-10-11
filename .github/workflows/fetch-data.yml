@@ -42,7 +42,8 @@ jobs:
           python -m hjemmefra.tools.probe_sites --out probe \
             --site https://www.lidl.dk/ --site https://rema1000.dk/ --site https://netto.dk/ \
             --site https://www.bilka.dk/ --site https://www.foetex.dk/ --site https://365discount.coop.dk/ \
-            --site https://superbrugsen.coop.dk/ --max-pages 6 --delay 2
+            --site https://superbrugsen.coop.dk/ --max-pages 6 --delay 2 \
+            --sitemap https://rema1000.dk/sitemap_index.xml --sitemap https://www.lidl.dk/static/sitemap.xml --sitemap https://netto.dk/sitemap.xml
           git config user.name "hjemmefra-data-bot"
           git config user.email "noreply@example.invalid"
           git fetch origin data

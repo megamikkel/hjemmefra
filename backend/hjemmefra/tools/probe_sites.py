@@ -82,16 +82,44 @@ def probe(root: str, out: Path, max_pages: int, delay: float) -> dict:
     return res
 
 
+def save_sitemaps(url: str, out: Path, delay: float, max_children: int = 8) -> dict:
+    res = {"sitemap": url, "children": []}
+    try:
+        r = httpx.get(url, headers={"User-Agent": UA}, timeout=30, follow_redirects=True)
+    except Exception as exc:  # noqa: BLE001
+        res["error"] = type(exc).__name__
+        return res
+    name = re.sub(r"[^a-z0-9]+", "_", url.lower())[-80:]
+    (out / f"sm_{name}.xml").write_text(r.text[:2_000_000])
+    locs = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", r.text)
+    res.update(status=r.status_code, locs=len(locs), sample=locs[:30])
+    for child in [l for l in locs if l.endswith(".xml")][:max_children]:
+        time.sleep(delay)
+        try:
+            c = httpx.get(child, headers={"User-Agent": UA}, timeout=30, follow_redirects=True)
+        except Exception as exc:  # noqa: BLE001
+            res["children"].append({"url": child, "error": type(exc).__name__})
+            continue
+        cl = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", c.text)
+        cname = re.sub(r"[^a-z0-9]+", "_", child.lower())[-80:]
+        (out / f"sm_{cname}.xml").write_text(c.text[:2_000_000])
+        res["children"].append({"url": child, "status": c.status_code, "locs": len(cl), "sample": cl[:15]})
+    return res
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
     ap.add_argument("--site", action="append", required=True)
     ap.add_argument("--max-pages", type=int, default=6)
     ap.add_argument("--delay", type=float, default=2.0)
+    ap.add_argument("--sitemap", action="append", default=[], help="save this sitemap and the first child sitemaps")
     a = ap.parse_args(argv)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     report = [probe(s, out, a.max_pages, a.delay) for s in a.site]
+    for sm in a.sitemap:
+        report.append(save_sitemaps(sm, out, a.delay))
     (out / "probe_report.json").write_text(json.dumps(report, indent=1, ensure_ascii=False, default=str))
     print(json.dumps(report, indent=1, ensure_ascii=False, default=str)[:20000])
     return 0
