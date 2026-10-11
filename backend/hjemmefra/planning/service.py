@@ -39,6 +39,14 @@ class PlanningData:
     coverage_warnings: List[str] = field(default_factory=list)
 
 
+def reasons_summary(rejected) -> dict:
+    out: dict = {}
+    for rj in rejected:
+        k = rj["reason"].split(":")[0]
+        out[k] = out.get(k, 0) + 1
+    return dict(sorted(out.items(), key=lambda kv: -kv[1]))
+
+
 def generate_plan(req: PlanRequest, data: PlanningData, distance_provider: Optional[DistanceProvider] = None,
                   travel_cfg: TravelConfig = TravelConfig(), now: Optional[datetime] = None) -> PlanResult:
     now = now or datetime.now(timezone.utc)
@@ -79,6 +87,7 @@ def generate_plan(req: PlanRequest, data: PlanningData, distance_provider: Optio
     ctx = OptimizationContext(household=hh, request=req, days=days, candidates=cands, options=report.options,
                               pantry=pantry, accepted_products=report.accepted_products, stores=store_map, travel_cost=travel, products=data.products,
                               history=list(data.history), servings=servings, shopping_dates=shopping_dates)
+    ctx.rejection_summary = reasons_summary(rejected)
     scenarios = run_scenarios(ctx)
 
     used_offer_ids = sorted({pl.offer_id for s in scenarios for pl in s.purchases if pl.offer_id})
@@ -90,7 +99,14 @@ def generate_plan(req: PlanRequest, data: PlanningData, distance_provider: Optio
         pantry_version=data.pantry_version, household_version=hh.version,
         weights={m.value: weights_for(m, req)[0] for m in req.optimization_modes},
     )
-    for rj in rejected[:20]:
+    reasons = {}
+    for rj in rejected:
+        key = rj["reason"].split(":")[0]
+        reasons[key] = reasons.get(key, 0) + 1
+    if rejected:
+        summary = ", ".join(f"{k} {v}" for k, v in sorted(reasons.items(), key=lambda kv: -kv[1]))
+        warnings.append(f"{len(rejected)} af {len(data.recipes)} opskrifter udeladt ({summary}); {len(cands)} kandidater tilbage.")
+    for rj in rejected[:10]:
         warnings.append(f"Opskrift {rj['recipe_id']} udeladt: {rj['reason']}")
     return PlanResult(plan_id=new_id("plan"), household_id=hh.household_id, created_at=now, optimizer_version=OPTIMIZER_VERSION,
                       request=req, data_snapshot=snapshot, scenarios=scenarios, coverage_warnings=warnings)

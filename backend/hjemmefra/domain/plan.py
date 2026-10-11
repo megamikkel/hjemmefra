@@ -86,6 +86,10 @@ class PlanRequest(BaseModel):
     # Fallback for missing data (spec 32): allow ingredients without a known price, listed separately and
     # excluded from the verified total. Only honoured when the household has no allergens, exclusions or diet.
     allow_unpriced_items: bool = False
+    # Dinner planning: only dishes with a real protein source and enough food per serving count as a meal.
+    main_meals_only: bool = True
+    min_protein_food_g_per_serving: int = 75
+    min_food_g_per_serving: int = 200
     max_unpriced_per_recipe: int = Field(default=3, ge=0, le=10)
 
 

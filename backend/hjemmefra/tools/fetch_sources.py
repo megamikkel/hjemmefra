@@ -34,7 +34,8 @@ from hjemmefra.recipes.importer import _LD, extract_recipe_node
 
 UA = "hjemmefra-recipe-import/0.2 (+facts only; respects robots.txt)"
 FACT_KEYS = {"@type", "name", "recipeIngredient", "recipeYield", "prepTime", "cookTime", "totalTime", "recipeCuisine",
-             "recipeCategory", "keywords", "_extracted_from"}
+             "recipeCategory", "keywords", "_extracted_from", "_shelf_life_days", "_freezable"}  # recipeYield included above
+EXTRACTOR_VERSION = 2  # bump when extraction improves; older files are re-fetched
 _LOC = re.compile(r"<loc>\s*([^<\s]+)\s*</loc>(?:\s*<lastmod>\s*([^<\s]+)\s*</lastmod>)?", re.I)
 _SKIP_PATH = re.compile(r"/(category|kategori|tag|tags|page|author|forfatter|wp-content|feed|om-|kontakt|cookie|privat|search|soeg)", re.I)
 
@@ -159,9 +160,14 @@ def main(argv=None) -> int:
         seen.add(url)
         target = out / "recipes" / f"{stable_hash(url)[:16]}.json"
         if target.exists():
-            manifest.setdefault("skipped_existing", 0)
-            manifest["skipped_existing"] += 1
-            continue
+            try:
+                old = json.loads(target.read_text()).get("extractor_version", 1)
+            except (OSError, ValueError):
+                old = 0
+            if old >= EXTRACTOR_VERSION:
+                manifest.setdefault("skipped_existing", 0)
+                manifest["skipped_existing"] += 1
+                continue
         rp = robots.get(_host(url))
         if rp is not None and not rp.can_fetch(UA, url):
             manifest["failed"][url] = "disallowed by robots.txt"
@@ -196,7 +202,8 @@ def main(argv=None) -> int:
                     continue
                 # Store facts only (name, ingredients, times, yield). Method text is not copied; users follow the source link.
                 facts = {k: v for k, v in node.items() if k in FACT_KEYS}
-                target.write_text(json.dumps({"url": str(r.url), "requested_url": url, "fetched_at": now, "recipe": facts}, ensure_ascii=False))
+                target.write_text(json.dumps({"url": str(r.url), "requested_url": url, "fetched_at": now, "extractor_version": EXTRACTOR_VERSION,
+                                              "recipe": facts}, ensure_ascii=False))
                 manifest["ok"].append(url)
             except Exception as exc:  # noqa: BLE001
                 manifest["failed"][url] = type(exc).__name__

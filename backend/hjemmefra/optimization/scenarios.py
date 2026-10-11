@@ -48,9 +48,13 @@ def diagnose(ctx: OptimizationContext, ov: dict, fallback: Optional[str]) -> str
         return "NO_RECIPE_CANDIDATES: ingen opskrifter opfylder de hårde krav (allergener, kost, tid eller prisdata)."
     if not ctx.stores:
         return "NO_STORES_IN_RANGE: ingen butikker inden for den tilladte afstand."
-    if len(ctx.candidates) < len(ctx.days) and ctx.request.max_recipe_repeats == 1 and not ctx.request.allow_leftover_meals:
-        return "TOO_FEW_CANDIDATES: færre gyldige opskrifter end dage uden gentagelser."
-    return fallback or "MODEL_INFEASIBLE"
+    top = ", ".join(f"{k} {v}" for k, v in list(ctx.rejection_summary.items())[:4])
+    lf = sum(1 for c in ctx.candidates if c.recipe.leftover_friendly) if ctx.request.allow_leftover_meals else 0
+    max_days = len(ctx.candidates) * ctx.request.max_recipe_repeats + lf
+    if max_days < len(ctx.days):
+        return (f"TOO_FEW_CANDIDATES: kun {len(ctx.candidates)} retter opfylder kravene, det dækker højst {max_days} af {len(ctx.days)} dage. "
+                f"Hyppigste udelukkelser: {top}.")
+    return f"{fallback or 'MODEL_INFEASIBLE'}: {len(ctx.candidates)} kandidater; hyppigste udelukkelser: {top}."
 
 
 def run_scenarios(ctx: OptimizationContext) -> List[Scenario]:

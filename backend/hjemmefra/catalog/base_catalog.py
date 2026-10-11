@@ -79,7 +79,7 @@ PURCHASABLE += [
     _p("YOGURT", "Yoghurt", "dairy", Unit.G, ["yoghurt naturel", "yoghurt", "græsk yoghurt", "skyr"], 14, allergens=[M, L], density=1.05, piece=1000),
     _p("BUTTERMILK", "Kærnemælk", "dairy", Unit.ML, ["kærnemælk"], 10, allergens=[M, L], density=1.03),
     _p("CREAM_CHEESE", "Flødeost", "dairy", Unit.G, ["naturel flødeost", "flødeost", "hvidløgsflødeost", "philadelphia"], 21, allergens=[M, L], density=1.0),
-    _p("HALLOUMI", "Halloumi", "dairy", Unit.G, ["halloumi", "grilloumi"], 30, allergens=[M], piece=200),
+    _p("HALLOUMI", "Halloumi", "dairy", Unit.G, ["halloumi", "grilloumi"], 30, allergens=[M], piece=200, protein="DAIRY"),
     _p("BURRATA", "Burrata", "dairy", Unit.G, ["burrata"], 7, allergens=[M], piece=125),
     _p("SPRING_ONION", "Forårsløg", "vegetables", Unit.G, ["forårsløg"], 7, vegan=True, piece=20),
     _p("LEEK", "Porre", "vegetables", Unit.G, ["porre", "porrer"], 14, vegan=True, piece=250),
@@ -92,7 +92,7 @@ PURCHASABLE += [
     _p("BEETROOT", "Rødbeder", "vegetables", Unit.G, ["rødbeder", "rødbede"], 21, vegan=True, piece=120),
     _p("PUMPKIN", "Græskar", "vegetables", Unit.G, ["hokkaido græskar", "græskar", "butternut squash"], 30, A, vegan=True, piece=1200),
     _p("PEAS_FROZEN", "Ærter", "frozen", Unit.G, ["frosne ærter", "ærter", "grønne ærter"], 365, StorageType.FROZEN, vegan=True, density=0.65),
-    _p("EDAMAME", "Edamamebønner", "frozen", Unit.G, ["edamamebønner", "pillede edamamebønner", "edamame"], 365, StorageType.FROZEN, allergens=[SO], vegan=True),
+    _p("EDAMAME", "Edamamebønner", "frozen", Unit.G, ["edamamebønner", "pillede edamamebønner", "edamame"], 365, StorageType.FROZEN, allergens=[SO], vegan=True, protein="VEG"),
     _p("ASPARAGUS", "Grønne asparges", "vegetables", Unit.G, ["grønne asparges", "asparges"], 4, vegan=True, piece=20),
     _p("SALAD_MIX", "Salat", "vegetables", Unit.G, ["blandet salat", "salat", "hjertesalat", "feldsalat", "iceberg"], 5, vegan=True, piece=200),
     _p("CORN_COB", "Majskolbe", "vegetables", Unit.G, ["majskolbe", "majskolber"], 7, vegan=True, piece=250),
@@ -112,7 +112,7 @@ PURCHASABLE += [
     _p("KETCHUP", "Ketchup", "condiments", Unit.G, ["ketchup"], 180, A, vegan=True, density=1.1),
     _p("WHITE_WINE", "Hvidvin", "beverages", Unit.ML, ["hvidvin"], 365, A, vegan=True),
     _p("FRYING_OIL", "Fritureolie", "oil", Unit.ML, ["fritureolie", "solsikkeolie", "olie til fritering"], 365, A, vegan=True, density=0.92),
-    _p("LUMPFISH_ROE", "Stenbiderrogn", "fish", Unit.G, ["stenbiderrogn", "rogn"], 14, protein="FISH", allergens=[F], veg=False),
+    _p("LUMPFISH_ROE", "Stenbiderrogn", "fish", Unit.G, ["stenbiderrogn", "rogn"], 14, allergens=[F], veg=False),
     _p("DATES", "Dadler", "dry", Unit.G, ["dadler", "medjooldadler"], 180, A, vegan=True, piece=8),
     _p("OLIVES", "Oliven", "canned", Unit.G, ["oliven", "grønne oliven", "sorte oliven", "kalamataoliven"], 180, A, vegan=True),
     _p("CAPERS", "Kapers", "canned", Unit.G, ["kapers"], 365, A, vegan=True, density=0.7),
@@ -161,6 +161,10 @@ EXTRA_ALIASES = {
     "CHICKPEAS_CANNED": ["kikærter", "dåser kikærter"],
     "CHEESE_GRATED": ["revet ost", "revet mozzarella", "revet pizzaost", "revet parmesan"],
 }
+# Protein groups for demo products that the demo catalog leaves unset.
+DEMO_PROTEIN = {"EGGS": "EGG"}
+EGG_GRAMS = 55  # one egg ~ 55 g edible, for the main-meal protein threshold only
+
 # Recipe-level piece/density estimates for demo products (ESTIMATES, conversion only).
 DEMO_PIECE_ESTIMATES = {"ONION": 150, "BELL_PEPPER": 150, "BROCCOLI": 400, "BEANS_CANNED": 400, "TOMATO_CANNED": 400, "COCONUT_MILK": 400,
                         "CHICKPEAS_CANNED": 400, "CREAM": 250, "POTATO": 150, "CARROT": 75}
@@ -176,6 +180,8 @@ def merged_catalog(demo_products):
             upd["aliases"] = list(dict.fromkeys([*p.aliases, *EXTRA_ALIASES[p.canonical_id]]))
         if p.canonical_id in DEMO_PIECE_ESTIMATES and p.piece_size_estimate is None:
             upd["piece_size_estimate"] = Decimal(DEMO_PIECE_ESTIMATES[p.canonical_id])
+        if p.canonical_id in DEMO_PROTEIN and p.protein_group is None:
+            upd["protein_group"] = DEMO_PROTEIN[p.canonical_id]
         if p.canonical_id in DEMO_DENSITY_ESTIMATES and p.density_g_per_ml is None:
             upd["density_g_per_ml"] = Decimal(DEMO_DENSITY_ESTIMATES[p.canonical_id])
         out.append(p.model_copy(update=upd) if upd else p)

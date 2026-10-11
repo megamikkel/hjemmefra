@@ -59,6 +59,8 @@ def hard_filter(recipe: Recipe, household: Household, products: Dict[str, Canoni
     if set(recipe.allergens) & set(p.allergens):
         return "ALLERGEN"
     max_prep = req.max_prep_minutes or p.max_prep_minutes
+    if max_prep is not None and not recipe.time_known:
+        return "PREP_TIME_UNKNOWN"
     if max_prep is not None and recipe.total_minutes > max_prep:
         return "MAX_PREP_TIME"
     for ing in recipe.ingredients:
@@ -101,6 +103,28 @@ def scale_recipe(recipe: Recipe, servings: int, products: Dict[str, CanonicalPro
     return out
 
 
+def main_meal_check(scaled: List[ScaledIngredient], products: Dict[str, CanonicalProduct], servings: int, req: PlanRequest) -> Optional[str]:
+    """A dinner needs a real protein source and enough food. Curated recipes with main_protein set skip this."""
+    protein = Decimal(0)
+    food = Decimal(0)
+    for si in scaled:
+        prod = products.get(si.canonical_id)
+        if prod is None or prod.is_staple:
+            continue
+        g = si.base_qty * (55 if prod.canonical_id == "EGGS" else 1) if prod.base_unit.value == "stk" else \
+            (si.base_qty * (prod.density_g_per_ml or 1) if prod.base_unit.value == "ml" else si.base_qty)
+        if prod.base_unit.value == "stk" and prod.canonical_id != "EGGS":
+            g = si.base_qty * 50  # rough piece weight for food-amount check only
+        food += g
+        if prod.protein_group:
+            protein += g
+    if protein / servings < req.min_protein_food_g_per_serving:
+        return f"NOT_A_MAIN_MEAL:protein {int(protein / servings)} g/serving"
+    if food / servings < req.min_food_g_per_serving:
+        return f"NOT_A_MAIN_MEAL:food {int(food / servings)} g/serving"
+    return None
+
+
 def standalone_cost(ingredients: List[ScaledIngredient], options: Dict[str, List[PurchaseOption]]) -> tuple[Optional[int], List[str]]:
     total = 0
     missing: List[str] = []
@@ -137,6 +161,11 @@ def generate_candidates(recipes: Sequence[Recipe], household: Household, product
         except PriceUnavailable as exc:
             rejected.append({"recipe_id": r.recipe_id, "reason": str(exc)})
             continue
+        if req.main_meals_only and r.source:  # imported recipes; curated ones carry an explicit main_protein
+            why_meal = main_meal_check(scaled, products, servings, req)
+            if why_meal:
+                rejected.append({"recipe_id": r.recipe_id, "reason": why_meal})
+                continue
         unpriced = [{"line": i.note or i.canonical_ingredient_id, "reason": "UNRESOLVED_INGREDIENT"} for i in r.ingredients if i.unpriced]
         cost, missing = standalone_cost(scaled, options)
         # an ingredient fully covered by pantry is not "missing"

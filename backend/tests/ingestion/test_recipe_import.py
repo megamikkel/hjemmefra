@@ -95,3 +95,53 @@ def test_staples_require_household_opt_in():
 def test_mixed_fractions():
     p = parse_ingredient_line("2½ dl cremefraiche 18 %")
     assert (p.quantity, p.unit.value, p.name) == (Decimal("2.5"), "dl", "cremefraiche")
+
+
+def _plan_one(lines, **req_kw):
+    from datetime import date
+    from hjemmefra.catalog.base_catalog import merged_catalog
+    from hjemmefra.demo.dataset import HOUSEHOLD
+    from hjemmefra.domain.plan import PlanRequest
+    from hjemmefra.planning.candidates import generate_candidates
+    from hjemmefra.recipes.importer import recipe_from_jsonld
+    cat = merged_catalog(PRODUCTS)
+    node = {"@type": "Recipe", "name": "T", "recipeYield": "4", "totalTime": "PT30M", "recipeIngredient": lines}
+    r = recipe_from_jsonld(node, "https://example.test/t", ProductResolver(cat, NEGATIVE_ALIASES)).recipe
+    hh = HOUSEHOLD.model_copy(deep=True)
+    hh.preferences.has_basic_staples = True
+    req = PlanRequest(household_id="x", start_date=date(2026, 10, 12), days=1, **req_kw)
+    pm = {p.canonical_id: p for p in cat}
+    return r, generate_candidates([r], hh, pm, {}, {}, req, 4)
+
+
+def test_side_dish_is_not_a_main_meal():
+    r, (cands, rej) = _plan_one(["50 g bacon", "1 kg kartofler", "2 spsk olivenolie", "salt og peber"])
+    assert r.main_protein == "PORK" and r.carbohydrate == "POTATO"
+    assert rej and rej[0]["reason"].startswith("NOT_A_MAIN_MEAL:protein")
+
+
+def test_unknown_time_never_passes_a_time_limit():
+    from hjemmefra.recipes.importer import recipe_from_jsonld
+    r = recipe_from_jsonld({"@type": "Recipe", "name": "T", "recipeIngredient": ["500 g hakket oksekød"]}, "https://e.test/u",
+                           ProductResolver(PRODUCTS)).recipe
+    assert r.time_known is False and r.total_minutes == 0
+    from datetime import date
+    from hjemmefra.demo.dataset import HOUSEHOLD, PRODUCT_MAP
+    from hjemmefra.domain.plan import PlanRequest
+    from hjemmefra.planning.candidates import hard_filter
+    req = PlanRequest(household_id="x", start_date=date(2026, 10, 12), days=1, max_prep_minutes=45)
+    assert hard_filter(r, HOUSEHOLD, PRODUCT_MAP, req) == "PREP_TIME_UNKNOWN"
+
+
+def test_visible_time_labels_beat_swapped_hidden_schema():
+    from hjemmefra.recipes.importer import extract_recipe_node, recipe_from_jsonld
+    html = ('<div class="hidden-schema"><span itemprop="cookTime">PT3H</span><span itemprop="totalTime">PT40M</span>'
+            '<span itemprop="recipeYield">6</span></div><h1>Lasagne</h1>'
+            '<div>Tid i alt <span>3 timer</span><br>Arbejdstid <span>40 min.</span><br>Holdbarhed <span>2 dage</span>'
+            '<br>Kan fryses <span>Ja</span></div><li itemprop="recipeIngredient">400 g hakket oksekød</li>')
+    node = extract_recipe_node(html)
+    r = recipe_from_jsonld(node, "https://e.test/l", ProductResolver(PRODUCTS)).recipe
+    assert (r.total_minutes, r.prep_minutes, r.servings) == (180, 40, 6)
+    assert r.time_known and r.leftover_friendly and r.freezer_friendly
+    hidden_only = extract_recipe_node(html.split("<div>Tid")[0] + '<li itemprop="recipeIngredient">1 løg</li>')
+    assert hidden_only["totalTime"] == "PT180M"  # larger hidden value taken as total, never the smaller

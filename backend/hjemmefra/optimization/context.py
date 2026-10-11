@@ -31,6 +31,7 @@ class OptimizationContext:
     history: List[PriceObservation] = field(default_factory=list)
     servings: int = 2
     shopping_dates: List[date] = field(default_factory=list)
+    rejection_summary: Dict[str, int] = field(default_factory=dict)
 
     def pantry_base(self) -> Dict[str, Decimal]:
         """Usable pantry quantity per canonical id."""

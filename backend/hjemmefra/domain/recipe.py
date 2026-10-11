@@ -45,6 +45,7 @@ class Recipe(BaseModel):
     nutrition: Optional[dict] = None  # only when reliable; carries source
     nutrition_source: Optional[str] = None
     source: Optional[str] = None
+    time_known: bool = True  # False when the source gives no prep/cook time (never treated as 0 minutes)
     review_required: bool = False  # imported with unresolved ingredients; excluded from planning
     version: int = 1
 
