@@ -13,6 +13,9 @@ on:
       max_new_recipes:
         description: Max new recipe pages to fetch this run
         default: "150"
+      task:
+        description: "fetch (default) or probe (reconnaissance of retailer offer pages)"
+        default: "fetch"
   schedule:
     - cron: "17 5 * * 1,4"  # Monday and Thursday mornings UTC
 
@@ -33,7 +36,21 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -e ./backend
+      - name: Probe retailer offer pages
+        if: ${{ github.event.inputs.task == 'probe' }}
+        run: |
+          python -m hjemmefra.tools.probe_sites --out probe \
+            --site https://www.lidl.dk/ --site https://rema1000.dk/ --site https://netto.dk/ \
+            --site https://www.bilka.dk/ --site https://www.foetex.dk/ --site https://365discount.coop.dk/ \
+            --site https://superbrugsen.coop.dk/ --max-pages 6 --delay 2
+          git config user.name "hjemmefra-data-bot"
+          git config user.email "noreply@example.invalid"
+          git fetch origin data
+          git worktree add -B data out origin/data
+          rm -rf out/probe && cp -r probe out/probe
+          cd out && git add -A probe && (git commit -m "Probe retailer offer pages $(date -u +%FT%TZ)" || echo "no changes") && git push -u origin data
       - name: Restore previously fetched recipes
+        if: ${{ github.event.inputs.task != 'probe' }}
         run: |
           mkdir -p fetched/recipes
           if git fetch origin data 2>/dev/null; then
@@ -41,6 +58,7 @@ jobs:
           fi
           echo "existing recipes: $(ls fetched/recipes | wc -l)"
       - name: Fetch
+        if: ${{ github.event.inputs.task != 'probe' }}
         env:
           HJEMMEFRA_SALLING_API_TOKEN: ${{ secrets.HJEMMEFRA_SALLING_API_TOKEN }}
           HJEMMEFRA_TJEK_API_KEY: ${{ secrets.HJEMMEFRA_TJEK_API_KEY }}
@@ -51,6 +69,7 @@ jobs:
             --max-new-recipes "${{ github.event.inputs.max_new_recipes || '150' }}" --delay 2
           echo "recipes now: $(ls fetched/recipes | wc -l)"
       - name: Commit to data branch
+        if: ${{ github.event.inputs.task != 'probe' }}
         run: |
           git config user.name "hjemmefra-data-bot"
           git config user.email "noreply@example.invalid"
