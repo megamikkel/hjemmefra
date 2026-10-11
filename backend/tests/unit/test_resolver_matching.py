@@ -54,3 +54,28 @@ def test_package_expressed_in_product_base_unit_and_bad_units_rejected():
     assert rep.options["RICE"][0].package_base_qty == 1000  # grams, the product's base unit, not ml
     assert rep.options["DRIED_SPICES"] == []
     assert any(r.get("reason", "").startswith("UNIT_CONVERSION_UNKNOWN:stk->g") for r in rep.rejected)
+
+
+REAL_TITLES = [  # (retailer title seen on 2026-10-11, expected canonical id or None)
+    ("Pasta sauce 480 gr.", None), ("Tomat pasta 140 gr.", "TOMATO_PASTE"), ("Spaghetti 1 kg.", "PASTA"),
+    ("Ris/mandel drik 1 ltr.", None), ("Basmati ris 1 kg.", "RICE"), ("GOLDEN SUN Basmatiris", "RICE"),
+    ("Kondenseret mælk 397 gr.", None), ("Letmælk 1,5% fedt 1 ltr.", "MILK"),
+    ("Tun i vand 140 gr.", "TUNA"), ("BELLAROM Espresso hele bønner", None), ("Edamame bønner 300 gr.", "EDAMAME"),
+    ("Chili con carne 450 gr.", None), ("Rød peber 1 stk.", "BELL_PEPPER"), ("Sort peber 50 gr.", "SALT_PEPPER"),
+    ("Squash appelsin-is i bæger", None), ("Z syltede agurker 190 gr.", None), ("Grøn te med citron 24 gr.", None),
+    ("Croutoner, hvidløg 75 gr.", None), ("Risotto med spinat 400 gr.", None), ("Tortilla chips salt 200 gr.", None),
+    ("chef select Paneret kyllingebrystfilet", None), ("Kyllingebrystfilet 450 gr.", "CHICKEN_BREAST"),
+    ("Hakket oksekød 8-12% 500 gr.", "BEEF_MINCED_8_12"), ("Jasminris 1 kg", "RICE"),
+]
+
+
+def test_real_retailer_titles_resolve_safely():
+    from hjemmefra.catalog.base_catalog import merged_catalog
+    r = ProductResolver(merged_catalog(PRODUCTS), NEGATIVE_ALIASES)
+    bad = []
+    for title, expected in REAL_TITLES:
+        res = r.resolve(title)
+        got = res.canonical_id if res.confidence in (MatchConfidence.HIGH, MatchConfidence.MEDIUM) else None
+        if got != expected:
+            bad.append((title, expected, got, res.confidence.value))
+    assert not bad, bad

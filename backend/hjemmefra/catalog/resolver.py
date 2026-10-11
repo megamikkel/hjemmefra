@@ -31,6 +31,16 @@ def tokens(s: str) -> List[str]:
     return [t for t in norm_text(s).split() if t not in _STOP and not t.isdigit()]
 
 
+# Words that change what a product IS. A title containing one of these only matches an alias that also
+# contains it ("pasta sauce" is not pasta, "tun i vand" is not water, "squash appelsin-is" is not squash).
+FORM_WORDS = {
+    "sauce", "dressing", "drik", "chutney", "mayo", "syltede", "syltet", "kondenseret", "chips", "is", "te", "croutoner",
+    "granuleret", "risotto", "carne", "dumle", "pålæg", "salat", "suppe", "pizza", "lasagne", "kage", "kager", "slik",
+    "tun", "makrel", "sild", "kaffe", "espresso", "café", "crema", "juice", "saft", "smoothie", "yoghurt", "dessert",
+    "glace", "paste", "pesto", "dip", "dippers", "marinade", "krydderi", "pulver", "chokolade", "glasur", "creme", "mousse",
+}
+
+
 @dataclass
 class ResolveResult:
     canonical_id: Optional[str]
@@ -60,6 +70,7 @@ class ProductResolver:
             return ResolveResult(cid, MatchConfidence.HIGH, f"exact alias match '{t}'", 1.0)
 
         title_tokens = set(tokens(title))
+        raw_tokens = set(t.split())
         best: Optional[ResolveResult] = None
         for p in self.products.values():
             if any(neg in t for neg in self.negative.get(p.canonical_id, [])):
@@ -68,11 +79,14 @@ class ProductResolver:
                 at = set(tokens(alias))
                 if not at:
                     continue
+                alias_raw = set(norm_text(alias).split())
+                if (raw_tokens & FORM_WORDS) - alias_raw:
+                    continue  # the title describes a different form of product
                 # alias fully contained in title as a whole-word phrase -> strong ("ris" must not match inside "frisk")
                 if f" {norm_text(alias)} " in f" {t} ":
                     extra = len(title_tokens - at)
                     conf = MatchConfidence.HIGH if extra <= 2 else MatchConfidence.MEDIUM
-                    cand = ResolveResult(p.canonical_id, conf, f"alias '{alias}' contained in title", 0.9 - 0.05 * extra)
+                    cand = ResolveResult(p.canonical_id, conf, f"alias '{alias}' contained in title", 0.9 - 0.05 * extra + 0.001 * len(norm_text(alias)))
                 else:
                     overlap = len(at & title_tokens) / len(at)
                     if overlap < 0.5:

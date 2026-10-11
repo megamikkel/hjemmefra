@@ -71,11 +71,14 @@ _PROCESSED = ["paneret", "nuggets", "schnitzel", "burger", "pålæg", "spegepøl
               "gyros", "pizza", "lasagne", "færdigret", "suppe", "sandwich", "wrap", "chips", "snack", "flødeis", "kage", "chokolade"]
 NEGATIVE_ALIASES = {"CHICKEN_BREAST": ["hel kylling", "kyllingelår", "kyllingevinger", "hakket kylling", *_PROCESSED],
                     "BEEF_MINCED_8_12": _PROCESSED, "BEEF_MINCED_14_18": _PROCESSED, "PORK_MINCED": _PROCESSED,
-                    "SALMON_FILLET": ["røget", "gravad", *_PROCESSED], "RICE": ["risalamande", "riskiks", "risengrød", "risotto", *_PROCESSED],
+                    "SALMON_FILLET": ["røget", "gravad", *_PROCESSED], "RICE": ["risalamande", "riskiks", "risengrød", "risotto", "drik", "mandel", *_PROCESSED],
                     "PASTA": ["pastasalat", "pastasauce", *_PROCESSED],
                     "EGGS": ["æggehvide", "æggeblomme", "æggesalat", "æggenudler"],
                     "TOMATO_CANNED": ["flødeskum", "cherrytomater", "soltørrede"],
-                    "LIME": ["citron", "banan"]}
+                    "LIME": ["citron", "banan"],
+                    "SALT_PEPPER": ["rød peber", "snack peber", "spidspeber", "peberfrugt", "peberrod", "dumle"],
+                    "MILK": ["kondenseret", "mandel", "havre", "soja", "kakao", "chokolade"],
+                    "BEANS_CANNED": ["hele bønne", "edamame", "kaffe", "espresso", "café"]}
 
 SOURCES = {
     "rema": SourceDescriptor("demo_rema", SourceType.DEMO, ComplianceClass.USER_SUPPLIED, "rema"),

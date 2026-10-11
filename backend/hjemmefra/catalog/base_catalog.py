@@ -38,7 +38,7 @@ PURCHASABLE = [
     _p("CARROT", "Gulerødder", "vegetables", Unit.G, ["gulerod", "gulerødder"], 21, vegan=True, piece=75),
     _p("CELERY", "Bladselleri", "vegetables", Unit.G, ["bladselleri", "stængler bladselleri", "stilkselleri"], 10, vegan=True, piece=40, allergens=[Allergen.CELERY]),
     _p("ZUCCHINI", "Squash", "vegetables", Unit.G, ["squash", "courgette"], 7, vegan=True, piece=300),
-    _p("TOMATO_PASTE", "Tomatpuré", "canned", Unit.G, ["tomatpuré", "koncentreret tomatpuré", "tomatkoncentrat"], 365, A, vegan=True, density=1.1),
+    _p("TOMATO_PASTE", "Tomatpuré", "canned", Unit.G, ["tomatpuré", "koncentreret tomatpuré", "tomatkoncentrat", "tomat pasta", "tomatpasta"], 365, A, vegan=True, density=1.1),
     _p("SUNDRIED_TOMATO", "Soltørrede tomater", "canned", Unit.G, ["soltørrede tomater", "soltørrede tomater i olie"], 180, A, vegan=True, density=0.9),
     _p("LASAGNA_SHEETS", "Lasagneplader", "dry", Unit.G, ["lasagneplader", "lasagneplade"], 365, A, allergens=[Allergen.GLUTEN], vegan=True),
     _p("RED_WINE", "Rødvin", "beverages", Unit.ML, ["rødvin"], 365, A, vegan=True),
@@ -104,6 +104,7 @@ PURCHASABLE += [
     _p("ICING_SUGAR", "Flormelis", "baking", Unit.G, ["flormelis"], 365, A, vegan=True, density=0.55),
     _p("VANILLA_SUGAR", "Vaniljesukker", "baking", Unit.G, ["vaniljesukker"], 365, A, vegan=True, density=0.85),
     _p("CORNSTARCH", "Majsstivelse", "baking", Unit.G, ["majsstivelse", "maizena"], 365, A, vegan=True, density=0.55),
+    _p("TUNA", "Tun", "fish", Unit.G, ["tun i vand", "tun i olie", "tun", "tunfisk", "yellowfin tun i vand"], 730, A, protein="FISH", allergens=[F], veg=False, piece=140),
     _p("CHORIZO", "Chorizo", "meat", Unit.G, ["chorizo"], 30, protein="PORK", veg=False),
     _p("PARMA_HAM", "Skinke", "meat", Unit.G, ["parmaskinke", "serranoskinke", "kogt skinke", "hamburgerryg"], 14, protein="PORK", veg=False),
     _p("CHICKEN_MINCED", "Hakket kylling", "meat", Unit.G, ["hakket kylling", "hakket kyllingekød"], 3, protein="CHICKEN", veg=False),
@@ -118,7 +119,7 @@ PURCHASABLE += [
     _p("CAPERS", "Kapers", "canned", Unit.G, ["kapers"], 365, A, vegan=True, density=0.7),
 ]
 EXTRA_STAPLE_ALIASES = {
-    "SALT_PEPPER": ["flagesalt", "groft salt", "havsalt", "hvid peber", "peber efter smag"],
+    "SALT_PEPPER": ["flagesalt", "groft salt", "havsalt", "hvid peber", "peber efter smag", "sort peber", "peberkorn", "salt m jod"],
     "COOKING_OIL": ["stegeolie", "sesamolie", "smør og olie til stegning", "olie til stegning"],
     "CONDIMENTS": ["æblecidereddike", "riseddike", "hvidvinseddike", "teriyakisauce", "fiskesauce", "worcestershire sauce", "tabasco"],
     "DRIED_SPICES": ["fennikelfrø", "tørret rosmarin", "stødt kardemomme", "stødt nellike", "stødt nelliker", "stødt ingefær", "stødt allehånde",
@@ -156,6 +157,7 @@ EXTRA_ALIASES = {
     "TORTILLA": ["tortillas pandekager", "tortillas", "tortillapandekager"],
     "CHICKEN_BREAST": ["kyllingebryst", "kyllingebrystfileter"],
     "ONION": ["løg", "rødløg", "skalotteløg", "zittauerløg", "gule løg"],
+    "BELL_PEPPER": ["peberfrugt", "peberfrugter", "rød peber", "snack peber", "spidspeber", "rød peberfrugt", "gul peberfrugt"],
     "POTATO": ["babykartofler", "kartofler", "nye kartofler", "bagekartofler", "melede kartofler"],
     "CREAM": ["piskefløde", "fløde", "madlavningsfløde", "kaffefløde"],
     "CHICKPEAS_CANNED": ["kikærter", "dåser kikærter"],
