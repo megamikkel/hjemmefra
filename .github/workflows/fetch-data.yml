@@ -41,10 +41,15 @@ jobs:
       - run: pip install -e ./backend
       - name: Probe retailer offer pages
         if: ${{ github.event.inputs.task == 'probe' }}
+        env:
+          PROBE_URLS: ${{ github.event.inputs.probe_urls }}
         run: |
-          if [ -n "${{ github.event.inputs.probe_urls }}" ]; then
-            ARGS=""; for u in ${{ github.event.inputs.probe_urls }}; do ARGS="$ARGS --site $u"; done
-            python -m hjemmefra.tools.probe_sites --out probe $ARGS --max-pages 1 --delay 2
+          if [ -n "$PROBE_URLS" ]; then
+            ARGS=()
+            for u in $PROBE_URLS; do
+              case "$u" in https://*) ARGS+=(--site "$u");; *) echo "skipping non-https url"; esac
+            done
+            python -m hjemmefra.tools.probe_sites --out probe "${ARGS[@]}" --max-pages 1 --delay 2
           else
           python -m hjemmefra.tools.probe_sites --out probe \
             --site https://www.lidl.dk/ --site https://rema1000.dk/ --site https://netto.dk/ \
