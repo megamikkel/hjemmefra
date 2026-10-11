@@ -83,7 +83,7 @@ PURCHASABLE += [
     _p("BURRATA", "Burrata", "dairy", Unit.G, ["burrata"], 7, allergens=[M], piece=125),
     _p("SPRING_ONION", "Forårsløg", "vegetables", Unit.G, ["forårsløg"], 7, vegan=True, piece=20),
     _p("LEEK", "Porre", "vegetables", Unit.G, ["porre", "porrer"], 14, vegan=True, piece=250),
-    _p("POINTED_CABBAGE", "Spidskål", "vegetables", Unit.G, ["spidskål", "hvidkål"], 14, vegan=True, piece=800),
+    _p("POINTED_CABBAGE", "Spidskål", "vegetables", Unit.G, ["spidskål"], 14, vegan=True, piece=800),
     _p("KALE", "Grønkål", "vegetables", Unit.G, ["grønkål"], 7, vegan=True),
     _p("RED_CABBAGE", "Rødkål", "vegetables", Unit.G, ["rødkål"], 21, vegan=True, piece=1000),
     _p("CAULIFLOWER", "Blomkål", "vegetables", Unit.G, ["blomkål"], 7, vegan=True, piece=700),

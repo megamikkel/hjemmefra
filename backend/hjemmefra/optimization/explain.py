@@ -24,7 +24,7 @@ def explain_scenario(sc: Scenario, ctx: OptimizationContext) -> List[str]:
         lines.append(f"{len(sc.leftover_uses)} ret(ter) laves i dobbelt portion og spises som rest dagen efter.")
     if sc.waste:
         if sc.waste.reused_in_later_meals_grams > 0:
-            lines.append(f"{sc.waste.reused_in_later_meals_grams / 1000:.1f} kg råvarer indgår i flere måltider.".replace(".", ","))
+            lines.append(f"{sc.waste.reused_in_later_meals_grams / 1000:.1f}".replace(".", ",") + " kg råvarer indgår i flere måltider.")
         lines.append(f"Estimeret ubrugt mad: {len(sc.waste.unused_items)} rest(er) til en værdi af {kr(sc.waste.total_unused_value_minor)} (flyttes til projected inventory).")
     if sc.confidence:
         lines.append(f"{int(sc.confidence.verified_share_of_checkout * 100)} % af checkout-prisen bygger på verificerede aktuelle priser.")
