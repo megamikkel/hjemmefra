@@ -1,0 +1,24 @@
+{
+ "fetched_at": "2026-10-11T05:18:57.512050+00:00",
+ "zip": "4200",
+ "ok": [],
+ "failed": {
+  "salling": "no token or zip",
+  "tjek": "no key or unknown zip centroid",
+  "https://www.valdemarsro.dk/kylling-i-karry/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/spaghetti-bolognese/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/frikadeller/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/tacos/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/lasagne/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/kyllingelaar-i-ovn/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/pasta-carbonara/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/boller-i-karry/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/chili-con-carne/": "no Recipe JSON-LD",
+  "https://www.valdemarsro.dk/butter-chicken/": "no Recipe JSON-LD",
+  "https://www.arla.dk/opskrifter/kylling-i-karry/": "no Recipe JSON-LD",
+  "https://www.arla.dk/opskrifter/frikadeller/": "no Recipe JSON-LD",
+  "https://www.arla.dk/opskrifter/lasagne/": "no Recipe JSON-LD",
+  "https://www.arla.dk/opskrifter/pasta-med-koedsovs/": "SourceUnavailable",
+  "https://www.arla.dk/opskrifter/tortilla-med-kylling/": "SourceUnavailable"
+ }
+}
