@@ -1,0 +1,32 @@
+User-agent: GPTBot
+Disallow: /
+
+User-agent: *
+Disallow: /wp-admin/
+Disallow: /wp-content/wpo-plugins-tables-list.json
+Allow: /wp-admin/admin-ajax.php
+#
+# Promo images 
+Disallow: /wp-content/2025/11/Nem_aftensmadvaldemarsro-kogeboeger.jpg
+Disallow: /wp-content/2025/09/Valdemarsro-app.jpg
+Disallow: /wp-content/2025/09/Madplan_3-1.jpg
+Disallow: /wp-content/2025/09/online-indkoeb.jpg
+Disallow: /wp-content/2025/09/favoritter_2.jpg
+Disallow: /wp-content/2025/09/Madplan-1.jpg
+Disallow: /wp-content/2025/09/online-indkoeb-.jpg
+Disallow: /wp-content/2025/09/favoritter-2.jpg
+Disallow: /wp-content/2025/11/Vegetar_aftensmadvaldemarsro-kogeboeger.jpg
+Disallow: /wp-content/2025/11/Vegetar_aftensmadvaldemarsro-kogeboeger-2.jpg
+
+
+User-agent: *
+Disallow: /wp-content/wpo/wpo-plugins-tables-list.json
+
+# START YOAST BLOCK
+# ---------------------------
+User-agent: *
+Disallow:
+
+Sitemap: https://www.valdemarsro.dk/sitemap_index.xml
+# ---------------------------
+# END YOAST BLOCK
