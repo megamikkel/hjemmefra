@@ -21,7 +21,10 @@ from hjemmefra.core.units import Unit, UnknownUnit, parse_unit
 from hjemmefra.domain.recipe import Recipe, RecipeIngredient
 from hjemmefra.ingestion.http import http_get_text
 
-_LD = re.compile(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', re.S | re.I)
+_LD = re.compile(r'<script[^>]*type\s*=\s*["\']?application/ld\+json["\']?[^>]*>(.*?)</script>', re.S | re.I)
+_MD_ING = re.compile(r'itemprop\s*=\s*["\']recipeIngredient["\'][^>]*>(.*?)</(?:li|span|div|p|td)>', re.S | re.I)
+_MD_NAME = re.compile(r'<h1[^>]*>(.*?)</h1>', re.S | re.I)
+_TAGS = re.compile(r"<[^>]+>")
 _DUR = re.compile(r"P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?")
 _QTY = re.compile(r"^\s*(\d+(?:[.,]\d+)?|\d+\s*/\s*\d+|½|¼|¾)\s*(?:(kg|g|gram|ml|cl|dl|l|liter|stk|spsk|tsk|dåse|dåser|pk|pakke|fed|bundt)\.?(?=\s|$))?\s*(.*)$", re.I)
 _FRACTIONS = {"½": Decimal("0.5"), "¼": Decimal("0.25"), "¾": Decimal("0.75")}
@@ -93,13 +96,31 @@ def _find_recipe_node(blocks: List[str]) -> Optional[dict]:
             continue
         nodes = data if isinstance(data, list) else [data]
         for n in list(nodes):
-            if isinstance(n, dict) and "@graph" in n:
-                nodes.extend(n["@graph"])
+            if isinstance(n, dict):
+                if isinstance(n.get("@graph"), list):
+                    nodes.extend(n["@graph"])
+                if isinstance(n.get("mainEntity"), dict):
+                    nodes.append(n["mainEntity"])
         for n in nodes:
             t = n.get("@type") if isinstance(n, dict) else None
             if t == "Recipe" or (isinstance(t, list) and "Recipe" in t):
                 return n
     return None
+
+
+def _microdata_recipe(html: str) -> Optional[dict]:
+    """Fallback for pages that mark ingredients up with schema.org microdata instead of JSON-LD."""
+    ings = [_TAGS.sub("", x).strip() for x in _MD_ING.findall(html)]
+    ings = [re.sub(r"\s+", " ", x) for x in ings if x]
+    if not ings:
+        return None
+    m = _MD_NAME.search(html)
+    return {"@type": "Recipe", "name": _TAGS.sub("", m.group(1)).strip() if m else "Importeret opskrift",
+            "recipeIngredient": ings, "_extracted_from": "microdata"}
+
+
+def extract_recipe_node(html: str) -> Optional[dict]:
+    return _find_recipe_node(_LD.findall(html)) or _microdata_recipe(html)
 
 
 def _servings(v) -> int:
@@ -155,7 +176,7 @@ def import_recipe_from_url(url: str, resolver: ProductResolver, fetch_text: Call
         html = fetch_text(url, {"User-Agent": "hjemmefra-recipe-import/0.1 (+structured data only)"})
     except Exception as exc:  # noqa: BLE001
         return ImportResult(None, error=f"{type(exc).__name__}: {exc}")
-    node = _find_recipe_node(_LD.findall(html))
+    node = extract_recipe_node(html)
     if node is None:
-        return ImportResult(None, error="no schema.org/Recipe JSON-LD found on page")
+        return ImportResult(None, error="no schema.org/Recipe data (JSON-LD or microdata) found on page")
     return recipe_from_jsonld(node, url, resolver)

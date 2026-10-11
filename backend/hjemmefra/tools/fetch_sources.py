@@ -24,7 +24,9 @@ from hjemmefra.ingestion.adapters.salling import BASE as SALLING_BASE
 from hjemmefra.ingestion.adapters.tjek import BASE as TJEK_BASE
 from hjemmefra.ingestion.http import http_get_json, http_get_text
 from hjemmefra.location.geo import POSTAL_CENTROIDS
-from hjemmefra.recipes.importer import _LD, _find_recipe_node
+import httpx
+
+from hjemmefra.recipes.importer import _LD, extract_recipe_node
 
 
 def main(argv=None) -> int:
@@ -75,10 +77,21 @@ def main(argv=None) -> int:
     if a.recipe_urls and Path(a.recipe_urls).exists():
         for url in [l.strip() for l in Path(a.recipe_urls).read_text().splitlines() if l.strip() and not l.startswith("#")]:
             try:
-                html = http_get_text(url, {"User-Agent": "hjemmefra-recipe-import/0.1 (+structured data only)"})
-                node = _find_recipe_node(_LD.findall(html))
+                r = httpx.get(url, headers={"User-Agent": "hjemmefra-recipe-import/0.1 (+structured data only)", "Accept-Language": "da"},
+                              timeout=20, follow_redirects=True)
+                html = r.text
+                title = re.search(r"<title[^>]*>(.*?)</title>", html, re.S | re.I)
+                diag = {"status": r.status_code, "final_url": str(r.url), "bytes": len(html),
+                        "title": (title.group(1).strip()[:80] if title else None), "ld_json_blocks": len(_LD.findall(html)),
+                        "ld_types": sorted(set(re.findall(r'"@type"\s*:\s*"([A-Za-z]+)"', html)))[:15],
+                        "microdata_ingredients": html.count("recipeIngredient")}
+                manifest.setdefault("diagnostics", {})[url] = diag
+                if r.status_code >= 400:
+                    manifest["failed"][url] = f"HTTP {r.status_code}"
+                    continue
+                node = extract_recipe_node(html)
                 if node is None:
-                    manifest["failed"][url] = "no Recipe JSON-LD"
+                    manifest["failed"][url] = "no Recipe structured data"
                     continue
                 (out / "recipes" / f"{stable_hash(url)[:16]}.json").write_text(json.dumps({"url": url, "fetched_at": now, "recipe": node}, ensure_ascii=False))
                 manifest["ok"].append(url)

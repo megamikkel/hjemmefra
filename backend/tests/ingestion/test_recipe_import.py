@@ -45,3 +45,12 @@ def test_review_required_recipe_is_excluded_from_planning():
 def test_import_without_jsonld_fails_cleanly():
     res = import_recipe_from_url("https://example.test/none", ProductResolver(PRODUCTS), fetch_text=lambda u, h: "<html></html>")
     assert res.recipe is None and "JSON-LD" in res.error
+
+
+def test_unquoted_type_and_microdata_fallback():
+    from hjemmefra.recipes.importer import extract_recipe_node
+    html = '<script type=application/ld+json>{"@type":"Recipe","name":"X","recipeIngredient":["1 løg"]}</script>'
+    assert extract_recipe_node(html)["name"] == "X"
+    md = '<h1>Frikadeller</h1><li itemprop="recipeIngredient">500 g <b>hakket svinekød</b></li><li itemprop="recipeIngredient">1 æg</li>'
+    node = extract_recipe_node(md)
+    assert node["name"] == "Frikadeller" and node["recipeIngredient"] == ["500 g hakket svinekød", "1 æg"]
