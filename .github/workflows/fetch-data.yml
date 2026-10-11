@@ -29,7 +29,7 @@ concurrency:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -67,7 +67,8 @@ jobs:
           python -m hjemmefra.tools.fetch_sources --out fetched --zip "${{ github.event.inputs.zip || '4200' }}" \
             --recipe-urls data/recipe_sources.txt \
             --discover-sitemap https://www.valdemarsro.dk \
-            --max-new-recipes "${{ github.event.inputs.max_new_recipes || '150' }}" --delay 2
+            --max-new-recipes "${{ github.event.inputs.max_new_recipes || '150' }}" --delay 2 \
+            --public-offers lidl,rema
           echo "recipes now: $(ls fetched/recipes | wc -l)"
       - name: Commit to data branch
         if: ${{ github.event.inputs.task != 'probe' }}

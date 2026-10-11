@@ -7,7 +7,7 @@ from typing import Optional, Tuple
 
 from hjemmefra.core.units import Unit, UnknownUnit, parse_unit
 
-_RE = re.compile(r"(?:(\d+)\s*[xX×]\s*)?(\d+(?:[.,]\d+)?)\s*(kg|g|gram|ml|cl|dl|l|ltr|liter|stk|stk\.|pk|pakke|ps)\b", re.IGNORECASE)
+_RE = re.compile(r"(?:(\d+)\s*[xX×]\s*)?(\d+(?:[.,]\d+)?)\s*(kg|g|gr|gram|ml|cl|dl|l|ltr|liter|stk|stk\.|pk|pakke|ps)(?![a-zæøå])", re.IGNORECASE)
 
 
 def parse_package(text: str) -> Optional[Tuple[Decimal, Unit, int]]:

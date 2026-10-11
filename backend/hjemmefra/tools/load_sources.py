@@ -30,6 +30,22 @@ def _file_fetch(path: Path):
     return fetch
 
 
+class RecordedAdapter(SourceAdapter):
+    """Replays raw records captured by fetch_sources (provenance preserved)."""
+
+    def __init__(self, path: Path):
+        from hjemmefra.domain.offer import RawOfferRecord
+        from hjemmefra.ingestion.adapters.lidl_public import descriptor as lidl_desc
+        from hjemmefra.ingestion.adapters.rema_public import descriptor as rema_desc
+        self.records = [RawOfferRecord.model_validate(r) for r in json.loads(path.read_text())]
+        self.descriptor = {"offers_lidl.json": lidl_desc(), "offers_rema.json": rema_desc()}[path.name]
+
+    def fetch(self):
+        from hjemmefra.ingestion.base import FetchResult
+        cap = max((r.captured_at for r in self.records), default=None)
+        return FetchResult(descriptor=self.descriptor, records=self.records, captured_at=cap)
+
+
 def load_dir(s: Session, data_dir: Path, zip_code: str, negative_aliases: dict | None = None) -> dict:
     manifest = json.loads((data_dir / "manifest.json").read_text()) if (data_dir / "manifest.json").exists() else {}
     fetched_at = datetime.fromisoformat(manifest["fetched_at"]) if manifest.get("fetched_at") else datetime.now(timezone.utc)
@@ -52,6 +68,8 @@ def load_dir(s: Session, data_dir: Path, zip_code: str, negative_aliases: dict |
     if p.exists() and zip_code in POSTAL_CENTROIDS:
         lat, lon = POSTAL_CENTROIDS[zip_code]
         adapters.append(TjekOffersAdapter("file", lat, lon, 10000, zip_code, fetch=_file_fetch(p), now=fetched_at))
+    for f in sorted(data_dir.glob("offers_*.json")):
+        adapters.append(RecordedAdapter(f))
     if adapters:
         summary["offers"] = ingest_into_db(s, adapters, negative_aliases, now=fetched_at)
     resolver = ProductResolver(ProductRepo(s).all(), negative_aliases)

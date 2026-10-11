@@ -80,6 +80,7 @@ def main(argv=None) -> int:
     ap.add_argument("--discover-sitemap", action="append", default=[], help="site root whose sitemap lists recipe pages (robots.txt is honoured)")
     ap.add_argument("--max-new-recipes", type=int, default=150, help="cap on newly fetched recipe pages per run")
     ap.add_argument("--delay", type=float, default=2.0, help="seconds between page requests (raised to the site's Crawl-delay)")
+    ap.add_argument("--public-offers", default="", help="comma list of public-page offer sources: lidl,rema")
     a = ap.parse_args(argv)
     out = Path(a.out)
     (out / "recipes").mkdir(parents=True, exist_ok=True)
@@ -118,6 +119,24 @@ def main(argv=None) -> int:
             manifest["failed"]["tjek_offers"] = type(exc).__name__
     else:
         manifest["failed"]["tjek"] = "no key or unknown zip centroid"
+
+    for src in [x.strip() for x in a.public_offers.split(",") if x.strip()]:
+        try:
+            if src == "lidl":
+                from hjemmefra.ingestion.adapters.lidl_public import LidlPublicPagesAdapter as A
+            elif src == "rema":
+                from hjemmefra.ingestion.adapters.rema_public import RemaPublicPagesAdapter as A
+            else:
+                manifest["failed"][f"offers:{src}"] = "unknown source"
+                continue
+            res = A(delay=a.delay).fetch()
+            if not res.ok:
+                manifest["failed"][f"offers:{src}"] = res.error
+                continue
+            (out / f"offers_{src}.json").write_text(json.dumps([json.loads(r.model_dump_json()) for r in res.records], ensure_ascii=False))
+            manifest["ok"].append(f"offers:{src}:{len(res.records)}")
+        except Exception as exc:  # noqa: BLE001
+            manifest["failed"][f"offers:{src}"] = f"{type(exc).__name__}: {exc}"[:200]
 
     urls: list[str] = []
     if a.recipe_urls and Path(a.recipe_urls).exists():
