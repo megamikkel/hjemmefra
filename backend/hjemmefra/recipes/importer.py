@@ -26,11 +26,12 @@ _MD_ING = re.compile(r'itemprop\s*=\s*["\']recipeIngredient["\'][^>]*>(.*?)</(?:
 _MD_NAME = re.compile(r'<h1[^>]*>(.*?)</h1>', re.S | re.I)
 _TAGS = re.compile(r"<[^>]+>")
 _DUR = re.compile(r"P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?")
-_QTY = re.compile(r"^\s*(\d+(?:[.,]\d+)?|\d+\s*/\s*\d+|½|¼|¾)\s*(?:(kg|g|gram|ml|cl|dl|l|liter|stk|spsk|tsk|dåse|dåser|pk|pakke|fed|bundt|håndfuld|knivspids|stængler|stængel|dryp|skiver|skive)\.?(?=\s|$))?\s*(.*)$", re.I)
+_QTY = re.compile(r"^\s*(\d+\s*[½¼¾]|\d+(?:[.,]\d+)?|\d+\s*/\s*\d+|½|¼|¾)\s*(?:(kg|g|gram|ml|cl|dl|l|liter|stk|spsk|tsk|dåse|dåser|pk|pakke|fed|bundt|håndfuld|håndfulde|knivspids|stængler|stængel|dryp|skiver|skive|bæger|bægre|pose|poser|net)\.?(?=\s|$))?\s*(.*)$", re.I)
 _FRACTIONS = {"½": Decimal("0.5"), "¼": Decimal("0.25"), "¾": Decimal("0.75")}
 # container words -> approximate base quantities only when the word itself carries the size; otherwise unknown
-_NON_UNIT_WORDS = {"dåse", "dåser", "fed", "bundt", "håndfuld", "knivspids", "stængler", "stængel", "dryp", "skiver", "skive"}
-_PIECE_WORDS = {"dåse", "dåser", "fed", "stængler", "stængel"}  # one piece_size_estimate each
+_NON_UNIT_WORDS = {"dåse", "dåser", "fed", "bundt", "håndfuld", "håndfulde", "knivspids", "stængler", "stængel", "dryp", "skiver", "skive",
+                   "bæger", "bægre", "pose", "poser", "net"}
+_PIECE_WORDS = {"dåse", "dåser", "fed", "stængler", "stængel", "bæger", "bægre", "skiver", "skive"}  # one piece_size_estimate each
 
 
 @dataclass
@@ -56,6 +57,8 @@ def parse_ingredient_line(line: str) -> ParsedLine:
     q, u, rest = m.group(1), m.group(2), m.group(3)
     if q in _FRACTIONS:
         qty = _FRACTIONS[q]
+    elif q[-1] in _FRACTIONS:  # "2½"
+        qty = Decimal(q[:-1].strip()) + _FRACTIONS[q[-1]]
     elif "/" in q:
         a, b = q.split("/")
         qty = Decimal(a.strip()) / Decimal(b.strip())
@@ -195,7 +198,7 @@ def recipe_from_jsonld(node: dict, url: str, resolver: ProductResolver) -> Impor
             ingredients.append(RecipeIngredient(canonical_ingredient_id=prod.canonical_id, quantity=p.quantity or Decimal(1),
                                                 unit=p.unit or Unit.STK, staple=True, optional=True, note=line))
             continue
-        if prod is not None and prod.is_garnish and (p.quantity is None or p.unit is None):
+        if prod is not None and prod.is_garnish:
             ingredients.append(RecipeIngredient(canonical_ingredient_id=prod.canonical_id, quantity=Decimal(0), unit=prod.base_unit,
                                                 optional=True, note=f"{line} (pynt, mængde uoplyst)"))
             continue
@@ -204,8 +207,9 @@ def recipe_from_jsonld(node: dict, url: str, resolver: ProductResolver) -> Impor
             review.append({"type": "LOW_CONFIDENCE_MATCH" if match.canonical_id else "UNMATCHED_PRODUCT", "source": url,
                            "line": line, "parsed_name": p.name, "canonical_id": match.canonical_id,
                            "confidence": match.confidence.value, "note": p.note})
-            ingredients.append(RecipeIngredient(canonical_ingredient_id=match.canonical_id or f"UNRESOLVED:{stable_hash(p.name)[:8]}",
-                                                quantity=p.quantity or Decimal(1), unit=p.unit or Unit.STK, note=line))
+            ingredients.append(RecipeIngredient(canonical_ingredient_id=f"UNRESOLVED:{stable_hash(p.name.lower())[:8]}",
+                                                quantity=p.quantity or Decimal(1), unit=p.unit or Unit.STK, note=line,
+                                                unpriced=True, optional=True))
             continue
         qty, unit, est = p.quantity, p.unit, False
         if unit == Unit.STK and prod.base_unit != Unit.STK:
@@ -213,6 +217,9 @@ def recipe_from_jsonld(node: dict, url: str, resolver: ProductResolver) -> Impor
                 needs_review = True
                 review.append({"type": "UNIT_CONVERSION_UNKNOWN", "source": url, "line": line, "canonical_id": prod.canonical_id,
                                "note": f"pieces vs {prod.base_unit.value}; no piece_size_estimate"})
+                ingredients.append(RecipeIngredient(canonical_ingredient_id=prod.canonical_id, quantity=qty, unit=unit, note=line,
+                                                    unpriced=True, optional=True))
+                continue
             else:
                 qty, unit, est = qty * prod.piece_size_estimate, prod.base_unit, True
         elif unit.value in ("ml", "cl", "dl", "l", "tsk", "spsk") and prod.base_unit == Unit.G:
@@ -220,6 +227,9 @@ def recipe_from_jsonld(node: dict, url: str, resolver: ProductResolver) -> Impor
                 needs_review = True
                 review.append({"type": "UNIT_CONVERSION_UNKNOWN", "source": url, "line": line, "canonical_id": prod.canonical_id,
                                "note": "volume vs mass; no density"})
+                ingredients.append(RecipeIngredient(canonical_ingredient_id=prod.canonical_id, quantity=qty, unit=unit, note=line,
+                                                    unpriced=True, optional=True))
+                continue
             else:
                 est = True  # scale_recipe converts with the documented density estimate
         ingredients.append(RecipeIngredient(canonical_ingredient_id=prod.canonical_id, quantity=qty, unit=unit,

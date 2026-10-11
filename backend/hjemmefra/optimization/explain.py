@@ -28,6 +28,8 @@ def explain_scenario(sc: Scenario, ctx: OptimizationContext) -> List[str]:
         lines.append(f"Estimeret ubrugt mad: {len(sc.waste.unused_items)} rest(er) til en værdi af {kr(sc.waste.total_unused_value_minor)} (flyttes til projected inventory).")
     if sc.confidence:
         lines.append(f"{int(sc.confidence.verified_share_of_checkout * 100)} % af checkout-prisen bygger på verificerede aktuelle priser.")
+        if sc.confidence.unknown_price_items:
+            lines.append(f"Ufuldstændig total: {len(sc.confidence.unknown_price_items)} vare(r) uden kendt pris skal købes oveni.")
     if sc.verified_saving_minor is not None:
         lines.append(f"Besparelse mod referencepris: {kr(sc.verified_saving_minor)} (sikkerhed {sc.saving_confidence.value}).")
     if sc.travel_cost_minor:

@@ -11,7 +11,7 @@ from datetime import date
 from decimal import ROUND_CEILING, Decimal
 from typing import Dict, List, Optional, Sequence
 
-from hjemmefra.core.units import Quantity, Unit
+from hjemmefra.core.units import Quantity, Unit, UnitConversionUnknown
 from hjemmefra.domain.household import Allergen, DietType, Household
 from hjemmefra.domain.plan import PlanRequest
 from hjemmefra.domain.product import CanonicalProduct
@@ -38,12 +38,24 @@ class RecipeCandidate:
     score: ScoreBreakdown
     standalone_cost_minor: Optional[int]  # cheapest cover ignoring pantry; None if any price unknown
     uncoverable: List[str] = field(default_factory=list)
+    unpriced: List[dict] = field(default_factory=list)  # {"line", "reason"}: bought too, price unknown
+
+
+def unpriced_allowed(household: Household, req: PlanRequest) -> bool:
+    """Unknown ingredients cannot be checked for allergens/diet, so they are only ever allowed
+    when the household has no such hard constraints."""
+    p = household.preferences
+    return req.allow_unpriced_items and not p.allergens and not p.excluded_ingredients and p.diet is None
 
 
 def hard_filter(recipe: Recipe, household: Household, products: Dict[str, CanonicalProduct], req: PlanRequest) -> Optional[str]:
     p = household.preferences
     if recipe.review_required:
-        return "REVIEW_REQUIRED"
+        unresolved = [i for i in recipe.ingredients if i.unpriced]
+        if not unpriced_allowed(household, req) or not unresolved or any(not i.unpriced for i in recipe.ingredients if i.canonical_ingredient_id.startswith("UNRESOLVED")):
+            return "REVIEW_REQUIRED"
+        if len(unresolved) > req.max_unpriced_per_recipe:
+            return f"TOO_MANY_UNKNOWN_INGREDIENTS:{len(unresolved)}"
     if set(recipe.allergens) & set(p.allergens):
         return "ALLERGEN"
     max_prep = req.max_prep_minutes or p.max_prep_minutes
@@ -75,14 +87,15 @@ def scale_recipe(recipe: Recipe, servings: int, products: Dict[str, CanonicalPro
     scale = Decimal(servings) / Decimal(recipe.servings)
     out: List[ScaledIngredient] = []
     for ing in recipe.ingredients:
-        if ing.optional and (ing.staple or ing.quantity == 0):
+        if ing.unpriced or (ing.optional and (ing.staple or ing.quantity == 0)):
             continue  # staples (household-confirmed) and unquantified garnish are not purchased
         prod = products.get(ing.canonical_ingredient_id)
         q = Quantity(ing.quantity * scale, ing.unit)
         if prod is not None and q.dimension != Quantity(Decimal(1), prod.base_unit).dimension:
-            if prod.density_g_per_ml is None:
-                raise PriceUnavailable(f"UNIT_CONVERSION_UNKNOWN:{ing.canonical_ingredient_id}")
-            q = q.convert_to(prod.base_unit, prod.density_g_per_ml)
+            try:
+                q = q.convert_to(prod.base_unit, prod.density_g_per_ml)
+            except UnitConversionUnknown:
+                raise PriceUnavailable(f"UNIT_CONVERSION_UNKNOWN:{ing.canonical_ingredient_id}:{ing.unit.value}->{prod.base_unit.value}")
         base = q.to_base().value.quantize(Decimal(1), rounding=ROUND_CEILING)
         out.append(ScaledIngredient(requirement_key(ing), base, ing.optional, ing.canonical_ingredient_id))
     return out
@@ -124,15 +137,25 @@ def generate_candidates(recipes: Sequence[Recipe], household: Household, product
         except PriceUnavailable as exc:
             rejected.append({"recipe_id": r.recipe_id, "reason": str(exc)})
             continue
+        unpriced = [{"line": i.note or i.canonical_ingredient_id, "reason": "UNRESOLVED_INGREDIENT"} for i in r.ingredients if i.unpriced]
         cost, missing = standalone_cost(scaled, options)
         # an ingredient fully covered by pantry is not "missing"
         still_missing = [m for m in missing if pantry_base.get(m, Decimal(0)) < next(s.base_qty for s in scaled if s.ingredient_id == m)]
         if still_missing:
-            rejected.append({"recipe_id": r.recipe_id, "reason": "PRICE_UNKNOWN_OR_NO_OPTION", "ingredients": still_missing})
-            continue
+            if unpriced_allowed(household, req) and len(unpriced) + len(still_missing) <= req.max_unpriced_per_recipe:
+                # keep the recipe; these ingredients become "buy too, price unknown" and leave the priced model
+                for si in scaled:
+                    if si.ingredient_id in still_missing:
+                        si.optional = True
+                        line = next((i.note for i in r.ingredients if i.canonical_ingredient_id == si.canonical_id and i.note), si.canonical_id)
+                        unpriced.append({"line": line, "reason": "NO_CURRENT_PRICE"})
+                cost, _ = standalone_cost(scaled, options)
+            else:
+                rejected.append({"recipe_id": r.recipe_id, "reason": "PRICE_UNKNOWN_OR_NO_OPTION", "ingredients": still_missing})
+                continue
         score = preference_score(r, household, req.start_date)
-        cands.append(RecipeCandidate(r, servings, Decimal(servings) / Decimal(r.servings), scaled, score, cost, []))
+        cands.append(RecipeCandidate(r, servings, Decimal(servings) / Decimal(r.servings), scaled, score, cost, [], unpriced))
     # rank: cheaper and better liked first; deterministic tiebreak
-    cands.sort(key=lambda c: ((c.standalone_cost_minor or 0) - c.score.total * 300, c.recipe.recipe_id))
+    cands.sort(key=lambda c: ((c.standalone_cost_minor or 0) + 1500 * len(c.unpriced) - c.score.total * 300, c.recipe.recipe_id))
     limit = max(req.candidate_limit_per_day, req.days + 2)
     return cands[:limit], rejected

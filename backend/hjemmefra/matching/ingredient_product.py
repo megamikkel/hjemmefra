@@ -13,7 +13,7 @@ from decimal import Decimal
 from typing import Dict, Iterable, List, Optional, Sequence
 
 from hjemmefra.core.confidence import Confidence, MatchConfidence
-from hjemmefra.core.units import Quantity, compatible
+from hjemmefra.core.units import Quantity, UnitConversionUnknown, compatible
 from hjemmefra.domain.household import Allergen, DietType, Household
 from hjemmefra.domain.offer import NormalizedOffer
 from hjemmefra.domain.product import CanonicalProduct, StorageType
@@ -139,12 +139,15 @@ def match_ingredients(ingredients: Iterable[RecipeIngredient], products: Dict[st
                 if block:
                     report.rejected.append({"ingredient": ing.canonical_ingredient_id, "offer": offer.offer_id, "reason": block})
                     continue
+                # Express the package in the PRODUCT's base unit: requirements are scaled into the same unit
+                # (planning.candidates.scale_recipe), so supply and demand are always compared like for like.
                 pkg = Quantity(offer.package_quantity * offer.package_count, offer.package_unit)  # type: ignore[arg-type]
-                if not compatible(pkg.unit, ing.unit):
-                    if product.density_g_per_ml is None:
-                        report.rejected.append({"ingredient": ing.canonical_ingredient_id, "offer": offer.offer_id, "reason": "UNIT_CONVERSION_UNKNOWN"})
-                        continue
-                    pkg = pkg.convert_to(ing.unit, product.density_g_per_ml)
+                try:
+                    pkg = pkg.convert_to(product.base_unit, product.density_g_per_ml)
+                except UnitConversionUnknown:
+                    report.rejected.append({"ingredient": ing.canonical_ingredient_id, "offer": offer.offer_id,
+                                            "reason": f"UNIT_CONVERSION_UNKNOWN:{pkg.unit.value}->{product.base_unit.value}"})
+                    continue
                 for store in stores:
                     if not offer.applies_to_store(store.store_id, store.chain_id, store.region):
                         continue

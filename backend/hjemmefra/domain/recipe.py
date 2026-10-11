@@ -20,6 +20,7 @@ class RecipeIngredient(BaseModel):
     note: Optional[str] = None
     staple: bool = False  # basic staple; skipped only when household.has_basic_staples
     quantity_is_estimate: bool = False  # converted via piece_size_estimate / density estimate
+    unpriced: bool = False  # unresolved / unconvertible line: never priced, listed separately when allowed
 
 
 class Recipe(BaseModel):

@@ -90,3 +90,8 @@ def test_staples_require_household_opt_in():
     assert hard_filter(r, hh, pm, req) == "STAPLE_NOT_CONFIRMED:SALT_PEPPER"
     hh.preferences.has_basic_staples = True
     assert hard_filter(r, hh, pm, req) is None
+
+
+def test_mixed_fractions():
+    p = parse_ingredient_line("2½ dl cremefraiche 18 %")
+    assert (p.quantity, p.unit.value, p.name) == (Decimal("2.5"), "dl", "cremefraiche")

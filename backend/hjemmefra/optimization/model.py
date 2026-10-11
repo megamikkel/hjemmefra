@@ -267,6 +267,14 @@ def build_and_solve(ctx: OptimizationContext, weights: ObjectiveWeights, max_sto
                 m.Add(sum(cooked_d) + sum(cooked_n) - 1 <= pen)
                 variety_terms.append(pen)
     waste_terms = [waste_rate_for(ctx, ov.canonical_id) * surplus[oid] for oid, ov in opt_vars.items()]
+    unpriced_terms = []
+    for r, c in enumerate(ctx.candidates):
+        k = len(c.unpriced)
+        if k:
+            for d in range(D):
+                unpriced_terms.append(k * x[(d, r)])
+                if (d, r) in z:
+                    unpriced_terms.append(k * z[(d, r)])
 
     S = OBJ_SCALE
     if objective_checkout_only:
@@ -278,7 +286,8 @@ def build_and_solve(ctx: OptimizationContext, weights: ObjectiveWeights, max_sto
                    + S * weights.time_penalty_minor_per_minute * sum(time_terms)
                    + S * weights.variety_penalty_minor * sum(variety_terms)
                    + S * weights.low_confidence_penalty_minor * sum(low_conf_terms)
-                   + S * weights.budget_overrun_weight * overrun)
+                   + S * weights.budget_overrun_weight * overrun
+                   + S * weights.unpriced_item_penalty_minor * sum(unpriced_terms))
 
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = time_limit

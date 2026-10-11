@@ -85,6 +85,11 @@ def build_scenario(mode: OptimizationMode, ctx: OptimizationContext, out: SolveO
             double = bool(out.z.get((d, r), 0))
             contrib = _meal_contribution(c, out, cost_by_key, double)
             reasons = list(c.score.reasons) + _ingredient_reasons(c, out, ctx, all_opts)
+            for u in c.unpriced:
+                sc.unpriced_items.append({"recipe": c.recipe.name, "day": str(day), "line": u["line"], "reason": u["reason"],
+                                          "double_portion": double})
+            if c.unpriced:
+                reasons.append(f"{len(c.unpriced)} ingrediens(er) uden kendt pris skal også købes")
             if double:
                 reasons.append(f"laves i dobbelt portion; resten spises {day + timedelta(days=1)}")
             meals.append(Meal(day=day, recipe_id=c.recipe.recipe_id, recipe_name=c.recipe.name,
@@ -153,8 +158,12 @@ def build_scenario(mode: OptimizationMode, ctx: OptimizationContext, out: SolveO
     total = verified + unverified
     share = (Decimal(verified) / Decimal(total)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP) if total else Decimal(1)
     overall = Confidence.VERIFIED if unverified == 0 else (Confidence.HIGH if share >= Decimal("0.9") else Confidence.MEDIUM)
+    unknown = sorted({u["line"] for u in sc.unpriced_items})
+    if unknown:
+        overall = Confidence.MEDIUM if overall in (Confidence.VERIFIED, Confidence.HIGH) else overall
+        sc.warnings.append(f"{len(unknown)} vare(r) uden kendt pris er ikke med i totalen; den reelle pris er højere.")
     sc.confidence = ConfidenceSummary(verified_share_of_checkout=share, verified_total_minor=verified,
-                                      unverified_total_minor=unverified, unknown_price_items=[], overall=overall)
+                                      unverified_total_minor=unverified, unknown_price_items=unknown, overall=overall)
     if unverified:
         sc.warnings.append(f"{int((1 - share) * 100)} % af checkout-prisen bygger på priser med lavere sikkerhed.")
     return sc

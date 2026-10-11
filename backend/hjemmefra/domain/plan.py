@@ -58,6 +58,7 @@ class ObjectiveWeights(BaseModel):
     time_penalty_minor_per_minute: int = 0  # øre per minute of total cooking time
     variety_penalty_minor: int = 2000  # øre per same-protein/dish repeat on consecutive days
     low_confidence_penalty_minor: int = 500  # øre per package priced with LOW/MEDIUM confidence
+    unpriced_item_penalty_minor: int = 1500  # øre per ingredient with unknown price, so missing data never looks cheap
     budget_overrun_weight: int = 3  # SOFT budget: multiplier on overrun øre
 
 
@@ -82,6 +83,10 @@ class PlanRequest(BaseModel):
     min_price_confidence: Confidence = Confidence.MEDIUM  # exclude lower confidence prices
     allow_leftover_meals: bool = True
     deterministic_seed: int = 0
+    # Fallback for missing data (spec 32): allow ingredients without a known price, listed separately and
+    # excluded from the verified total. Only honoured when the household has no allergens, exclusions or diet.
+    allow_unpriced_items: bool = False
+    max_unpriced_per_recipe: int = Field(default=3, ge=0, le=10)
 
 
 class PurchaseLine(BaseModel):
@@ -173,6 +178,7 @@ class Scenario(BaseModel):
     optimization_status: OptimizationStatus
     objective_value: Optional[int] = None
     meals: List[Meal] = Field(default_factory=list)
+    unpriced_items: List[dict] = Field(default_factory=list)  # {recipe, line, reason}: buy these too; price unknown
     purchases: List[PurchaseLine] = Field(default_factory=list)
     pantry_uses: List[PantryUse] = Field(default_factory=list)
     leftover_uses: List[LeftoverUse] = Field(default_factory=list)

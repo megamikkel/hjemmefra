@@ -67,7 +67,10 @@ PRODUCTS = [
 ]
 PRODUCT_MAP = {p.canonical_id: p for p in PRODUCTS}
 
-NEGATIVE_ALIASES = {"CHICKEN_BREAST": ["hel kylling", "kyllingelår", "kyllingevinger"]}
+NEGATIVE_ALIASES = {"CHICKEN_BREAST": ["hel kylling", "kyllingelår", "kyllingevinger", "hakket kylling"],
+                    "EGGS": ["æggehvide", "æggeblomme", "æggesalat", "æggenudler"],
+                    "TOMATO_CANNED": ["flødeskum", "cherrytomater", "soltørrede"],
+                    "LIME": ["citron", "banan"]}
 
 SOURCES = {
     "rema": SourceDescriptor("demo_rema", SourceType.DEMO, ComplianceClass.USER_SUPPLIED, "rema"),
