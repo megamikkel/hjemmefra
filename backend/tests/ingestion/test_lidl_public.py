@@ -22,7 +22,7 @@ def tile(**kw):
     return '<div data-grid-data="' + html.escape(json.dumps(d)) + '"></div>'
 
 
-HUB = ('<a href="/c/ugens-koed-og-fisk/a10104855">kød</a><a href="/1/forbudt/a123">x</a>'
+HUB = ('<a href="https://www.lidl.dk/c/ugens-koed-og-fisk/a10104855">kød</a><a href="/1/forbudt/a123">x</a><a href="/c/vaerksted/s1006">v</a>'
        + tile(pid=1, title="Hakket oksekød 8-12%", price={"price": 35, "packaging": {"text": "500 g"}, "basePrice": {"text": "Pr. kg 70,00"}})
        + tile(pid=2, title="Grillpølser", lidlPlus=[{"price": {"price": 15, "packaging": {"text": "2 x 100 g"}}, "highlightText": "Kuponpris"}])
        + tile(pid=3, title="Kontorstol", cat="Hjem/Møbler", price={"price": 399, "packaging": {"text": "1 stk"}}))

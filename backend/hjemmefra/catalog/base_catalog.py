@@ -70,7 +70,6 @@ BASE_PRODUCTS = PURCHASABLE + GARNISH + STAPLES
 
 # Aliases added to the demo catalog's existing products (the demo products stay the canonical ids).
 EXTRA_ALIASES = {
-    "EGGS": ["æggehvide", "æggehvider", "æggeblomme", "æggeblommer"],
     "PASTA": ["spaghetti", "pasta"],
     "RICE": ["ris", "basmati ris", "basmatiris", "jasmin ris"],
     "TOMATO_CANNED": ["hakkede tomater på dåse"],

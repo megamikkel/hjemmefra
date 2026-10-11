@@ -28,11 +28,16 @@ from hjemmefra.ingestion.base import ComplianceClass, FetchResult, SourceAdapter
 from hjemmefra.ingestion.packaging import parse_package
 
 BASE = "https://www.lidl.dk"
-HUBS = ["/c/tilbudsavis/s10013730", "/c/lidl-plus-tilbudsavis/s10014830", "/c/lidl-plus-tilbud/s10029008"]
+HUBS = ["/", "/c/tilbudsavis/s10013730", "/c/lidl-plus-tilbudsavis/s10014830", "/c/lidl-plus-tilbud/s10029008"]
 UA = "hjemmefra-offer-import/0.1 (+public offer pages; respects robots.txt)"
 CPH = ZoneInfo("Europe/Copenhagen")
 _GRID = re.compile(r'data-grid-data="([^"]+)"')
-_CAMPAIGN_LINK = re.compile(r'href="(/c/[^"#?]+/[as]\d+)"')
+_CAMPAIGN_LINK = re.compile(r'href="(?:https://www\.lidl\.dk)?(/c/[^"#?]+/[as]\d+)"')
+
+
+def _follow(path: str) -> bool:
+    """Campaign pages (/a...) and offer hubs only; never general category browsing."""
+    return bool(re.search(r"/a\d+$", path)) or ("tilbud" in path and re.search(r"/s\d+$", path) is not None)
 FOOD_CATEGORY_HINTS = ("Mad", "Food", "Kød", "Frugt", "Grønt", "Mejeri", "Brød", "Frost", "Kolonial", "Drikke", "Fisk")
 
 
@@ -162,6 +167,8 @@ class LidlPublicPagesAdapter(SourceAdapter):
                 errors.append(f"{url}: HTTP {status}")
                 continue
             for href in _CAMPAIGN_LINK.findall(html):
+                if not _follow(href):
+                    continue
                 u = urllib.parse.urljoin(BASE, href)
                 if u not in seen and u not in queue:
                     queue.append(u)
